@@ -50,6 +50,7 @@ class IncidentController extends Controller
         $incident->incident = $request->incident;
         $incident->action_taken = $request->action_taken;
         $incident->site_id = $request->site_id;
+        $incident->incident_date = date('Y-m-d', strtotime($request->incident_date));
 
         if($incident->save()){
             return response()->json([
