@@ -17,6 +17,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/client-access', 'ClientController@clientAccess')->name('client-access.view');
 
 Route::middleware('auth')->group(function(){
     Route::get('/users/add', 'UserController@create')->name('user.add');
@@ -39,7 +40,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/send-report', 'ReportController@send')->name('report.send');
     Route::get('/view-deductions', 'DeductionController@guardDeductions')->name('offences.view');
     Route::get('/view-reports', 'ReportController@index')->name('reports.view');
-    Route::get('/client-access', 'ClientController@clientAccess')->name('client-access.view');
     Route::get('/upload', 'GuardController@uploadExcel')->name('guard.upload');
     Route::get('/biometrics', 'GuardController@uploadBios')->name('guard.bios');
     Route::get('/add-guarantors', 'GuardController@addGuarantors')->name('guard.add-guarantors');
