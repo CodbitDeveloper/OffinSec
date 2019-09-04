@@ -11,7 +11,7 @@ class Shift_Type extends Model
     protected $table = "shift_types";
 
     protected $fillable = [
-        'name'
+        'name', 'start_time', 'end_time'
     ];
 
     public function attendances()
