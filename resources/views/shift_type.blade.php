@@ -62,7 +62,7 @@
                                     <td>{{date("H:i:s", strtotime($shift->start_time))}}</td>
                                     <td>{{date("H:i:s", strtotime($shift->end_time))}}</td>
                                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">
-                                        <a href="javascript:void(0)" class="text-info" onclick="editShift('{{$shift->id}}', '{{$shift->name}}', '{{date(\'H:i:s\', strtotime($shift->start_time))}}', '{{date(\'H:i:s\', strtotime($shift->end_time))}}')">Edit</a>
+                                        <a href="javascript:void(0)" class="text-info" onclick="editShift('{{$shift->id}}', '{{$shift->name}}', '{{date('H:i:s', strtotime($shift->start_time))}}', '{{date('H:i:s', strtotime($shift->end_time))}}')">Edit</a>
                                         &nbsp;
                                         <a href="javascript:void(0)" class="text-danger" onclick="deleteShift('{{$shift->id}}')">Delete</a>
                                     </td>
