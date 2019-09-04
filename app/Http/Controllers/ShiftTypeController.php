@@ -14,9 +14,8 @@ class ShiftTypeController extends Controller
      */
     public function index()
     {
-        $shift_type = Shift_Type::all();
-
-        return response()->json($shift_type, 200);
+        $shift_types = Shift_Type::all();
+        return view('shift_type', compact("shift_types"));
     }
 
     /**
@@ -26,7 +25,6 @@ class ShiftTypeController extends Controller
      */
     public function create()
     {
-        return view('shift_type');
     }
 
     /**
@@ -45,10 +43,6 @@ class ShiftTypeController extends Controller
 
         $shift_type = new Shift_Type();
 
-        $shift_type->name = $request->name;
-        $shift_type->start_time = $request->start_time;
-        $shift_type->end_time = $request->end_time;
-
         if(Shift_Type::where('name', $request->name)->get()->count() > 0) {
             return response()->json([
                 'error' => true,
@@ -56,12 +50,18 @@ class ShiftTypeController extends Controller
             ]);
         }
 
-        if(Shift_Type::where([['start_time', $request->start_time], ['end_time', $request->end_time]])->get()->count() > 0) {
+        $shift_type->name = $request->name;
+        $shift_type->start_time = date("Y-m-d H:i:s", strtotime($request->start_time));
+        $shift_type->end_time = date("Y-m-d H:i:s", strtotime($request->end_time));
+
+
+        if(Shift_Type::whereTime('start_time', $shift_type->start_time)->orWhereTime('end_time', $shift_type->end_time)->get()->count() > 0) {
             return response()->json([
                 'error' => true,
                 'message' => 'Start or end time already allocated'
             ]);
         }
+        
 
         if($shift_type->save()){
             return response()->json([

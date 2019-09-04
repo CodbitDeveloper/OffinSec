@@ -147,6 +147,9 @@
                                         <li>
                                             <a href="/add-guarantors">Add Guarantors</a>
                                         </li>
+                                        <li>
+                                            <a href="/shift-types">Shift Types</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
