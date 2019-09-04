@@ -31,7 +31,7 @@
                         <div class="profile-user-box card-box bg-custom">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <span class="float-left mr-3"><img src="{{$guard->photo == '' || $guard->photo == null ? asset('assets/images/avatar.jpg') : asset('assets/images/guards/'.$guard->photo)}}" alt="" class="thumb-lg rounded-circle" onclick="enlarge(this)"></span>
+                                    <span class="float-left mr-3"><img src="{{asset('assets/images/guards/'.$guard->photo)}}"  onerror="this.src='{{asset('assets/images/avatar.jpg')}}'" alt="" class="thumb-lg rounded-circle" onclick="enlarge(this)"></span>
                                     <div class="media-body text-white">
                                         <h4 class="mt-1 mb-1 font-18">{{$guard->firstname.' '.$guard->lastname}}</h4>
                                         <p class="font-13 text-light"> {{$guard->phone_number}}</p>
@@ -39,9 +39,15 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-danger waves-effect" onclick="deleteGuard('{{$guard->id}}')">
-                                            Delete Guard
+                                        @if($guard->deleted_at == null)
+                                        <button type="button" class="btn btn-dark waves-effect" onclick="deleteGuard('{{$guard->id}}')">
+                                            Move To Archive
                                         </button>
+                                        @else
+                                        <button type="button" class="btn btn-warning waves-effect" onclick="undeleteGuard('{{$guard->id}}')">
+                                            Remove From Archive
+                                        </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -240,12 +246,30 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Do you really want to delete this guard? This process cannot be undone.</p>
+                    <p>Do you really want to add this guard to the archive? This guard will not be able to take attendance or be added to duty a roster.</p>
                     <input type="hidden" id="delete-guard-id"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="btn-delete-guard">Delete</button>
+                    <button type="button" class="btn btn-danger" id="btn-delete-guard">Archive</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="undeleteGuardModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>	
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove this guard from the archive?.</p>
+                    <input type="hidden" id="undelete-guard-id"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning" id="btn-undelete-guard">Remove From Archive</button>
                 </div>
             </div>
         </div>
@@ -341,7 +365,7 @@
         $('#edit_guard_form').find('[type="submit"]').prop('disabled', false);
     });
 
-    
+    @if($guard->deleted_at == null)
     function deleteGuard(guard)
     {
         $('#delete-guard-id').val(guard);
@@ -349,6 +373,7 @@
         $('#deleteGuardModal').modal('show');
     }
 
+    
     $('#btn-delete-guard').on('click', function(e){
         e.preventDefault();
         var btn = $(this);
@@ -357,7 +382,7 @@
             url: '/api/guard/delete/'+ $("#delete-guard-id").val(),
             method: 'DELETE',
             success: function(data){
-                removeLoading(btn, 'Delete');
+                removeLoading(btn, 'Archive');
                     if(data.error){
                         $.toast({
                             text : data.message,
@@ -381,7 +406,7 @@
                     }
             },
             error: function(err){
-                removeLoading(btn, 'Delete');
+                removeLoading(btn, 'Archive');
                 $.toast({
                     text : 'Network error',
                     heading : 'Error',
@@ -392,6 +417,59 @@
             }
         });
     });
+    @else
+    function undeleteGuard(guard){
+        $('#undelete-guard-id').val(guard);
+
+        $('#undeleteGuardModal').modal('show');
+    }
+    
+    $('#btn-undelete-guard').on('click', function(e){
+        e.preventDefault();
+        var btn = $(this);
+        
+        $.ajax({
+            url: '/api/guard/undelete/'+ $("#undelete-guard-id").val(),
+            method: 'POST',
+            success: function(data){
+                removeLoading(btn, 'Remove From Archive');
+                    if(data.error){
+                        $.toast({
+                            text : data.message,
+                            heading : 'Error',
+                            position: 'top-right',
+                            showHideTransition : 'slide', 
+                            bgColor: '#d9534f'
+                        });
+                    }else{
+                        $.toast({
+                            text : data.message,
+                            heading : 'Done',
+                            position: 'top-right',
+                            bgColor : '#5cb85c',
+                            showHideTransition : 'slide'
+                        });
+
+                        setTimeout(function(){
+                            location.reload();
+                        }, 500);
+                    }
+            },
+            error: function(err){
+                removeLoading(btn, 'Remove From Archive');
+                $.toast({
+                    text : 'Network error',
+                    heading : 'Error',
+                    position: 'top-right',
+                    showHideTransition : 'slide', 
+                    bgColor: '#d9534f'
+                });
+            }
+        });
+    });
+    @endif
+
+
 
     $('#edit_guard_form').on('submit', function(e){
         e.preventDefault();

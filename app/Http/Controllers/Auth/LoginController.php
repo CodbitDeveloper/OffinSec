@@ -99,4 +99,9 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+
+    public function doLogin()
+    {
+        return view("auth/login");
+    }
 }

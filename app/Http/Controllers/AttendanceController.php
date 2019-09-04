@@ -77,6 +77,33 @@ class AttendanceController extends Controller
         $date = date('Y-m-d H:i:s', strtotime($request->date_time));
         $attendance->date_time = $date;
         $attendance->type = $request->type;
+        $sign_in_time = strtotime(date("H:i:s", strtotime($request->date_time)));
+
+        $guard = Guard::with("duty_rosters")->where("id", $request->guard_id)->first();
+        
+        if($request->type == 1){
+            $end = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_end_time) - 3600));
+            $start = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_start_time) - 3600));;
+
+            if($sign_in_time > $end || $sign_in_time < $start){
+                return response()->json([
+                    "error" => true,
+                    "message" => "Guard is not allowed to mark attendance at this time"
+                ]);
+            }
+        }else if($request->type == 0){
+            $end = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_end_time) + (3*3600)));
+            $start = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_end_time)));;
+
+            if($sign_in_time > $end || $sign_in_time < $start){
+                return response()->json([
+                    "error" => true,
+                    "message" => "Guard is not allowed to mark attendance at this time"
+                ]);
+            }
+        }
+
+        $attendance->shift_type_id = $guard->duty_rosters[0]->shift_type_id;
 
         if($attendance->save()){
             return response()->json([
@@ -123,7 +150,26 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        $request->validate([
+            'date_time' => 'required',
+            'type' => 'required'
+        ]);
+
+        $attendance->date_time = date('Y-m-d H:i:s', strtotime($request->date_time));
+        $attendance->type = $request->type;
+
+        if($attendance->update()) {
+            return response()->json([
+                'error' => false,
+                'data' => $attendance,
+                'message' => 'Attendance updated successfully'
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => 'Could not update attendance'
+            ]);
+        }
     }
 
     /**

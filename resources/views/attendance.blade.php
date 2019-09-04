@@ -255,7 +255,7 @@
                     success: function(data){
                         removeLoading(btn, 'Save');
                             if(data.error){
-                                removeLoading(btn, 'Add Client');
+                                removeLoading(btn, 'Save');
 
                                 $.toast({
                                     text : data.message,

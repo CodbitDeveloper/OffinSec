@@ -113,15 +113,15 @@
                             $complete = Carbon\Carbon::parse($client->end_date);
                             $isPast = $date->isPast();
                             if($isPast){
-                                $percentage = ($date->diffInDays(Carbon\Carbon::now())/$complete->diffInDays(Carbon\Carbon::now()))*100;
+                                $percentage = ($date->diffInDays(Carbon\Carbon::now())/$complete->diffInDays($date))*100;
                             }else{
                                 $percentage = 0;
                             }
                             
                         ?>
-                        <label class="">Completion : <span class="text-custom">{{$isPast ? $date->diffInDays(Carbon\Carbon::now()) : 0}}/{{$complete->diffInDays(Carbon\Carbon::now())}}</span></label>
+                        <label class="">Completion : <span class="text-custom">{{$isPast ? $date->diffInDays(Carbon\Carbon::now()) : 0}}/{{$complete->diffInDays($date)}}</span></label>
                         <div class="progress mb-1" style="height: 7px;">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="(55/85)*100" aria-valuemin="0"
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{$percentage}}" aria-valuemin="0"
                                 aria-valuemax="100" style="width: {{$percentage}}%;">
                             </div><!-- /.progress-bar .progress-bar-danger -->
                         </div><!-- /.progress .no-rounded -->

@@ -308,7 +308,7 @@ class GuardController extends Controller
     }
 
     public function view(Request $request){
-        $guard = Guard::with('duty_rosters', 'duty_rosters.site', 'duty_rosters.site.client', 'guarantors', 'role')->where('id', $request->id)->first();
+        $guard = Guard::withTrashed()->with('duty_rosters', 'duty_rosters.site', 'duty_rosters.site.client', 'guarantors', 'role')->where('id', $request->id)->first();
         $roles = Role::all();
         //$guard = DB::select("SELECT sites.name, guards.* FROM guard_roster, duty_rosters, guards, sites WHERE guard_roster.guard_id = guards.id AND guard_roster.duty_roster_id = duty_rosters.id AND sites.id = duty_rosters.site_id AND guards.id = '$request->id' group by guards.id, sites.name ");
 
@@ -545,5 +545,30 @@ class GuardController extends Controller
             'error' => false,
             'guard' => $guard
         ]);
+    }
+
+    public function removeFromArchive(Request $request){
+        $guard = Guard::onlyTrashed()->where("id", $request->guard)->first();
+        $guard->deleted_at = null;
+
+        if($guard->save()){
+            return response()->json([
+                'error' => false,
+                "message" => "Guard successfully removed from archive",
+                'guard' => $guard
+            ]);
+        }
+
+        return response()->json([
+            'error' => true,
+            "message" => "Could not remove this guard from the archive"
+        ]);
+    }
+
+    public function getArchivedGuards(Request $request){
+        $guards = Guard::onlyTrashed()->paginate(15);
+        $searching = false;
+
+        return view("guards-archived", compact("guards", "searching"));
     }
 }
