@@ -72,14 +72,11 @@ class AttendanceController extends Controller
         
         $attendance = new Attendance();
 
-             
-
         $attendance->guard_id = $request->guard_id;
         $attendance->site_id = $request->site_id;
         $date = date('Y-m-d H:i:s', strtotime($request->date_time));
         $attendance->date_time = $date;
         $attendance->type = $request->type;
-        
         $sign_in_time = strtotime(date("H:i:s", strtotime($request->date_time)));
 
         $guard = Guard::with("duty_rosters")->where("id", $request->guard_id)->first();
@@ -151,9 +148,34 @@ class AttendanceController extends Controller
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'guard_id' => 'required',
+            'site_id' => 'required',
+            'date_time' => 'required',
+            'type' => 'required'
+        ]);
+
+        $attendance = Attendance::where('id', $request->id)->first();
+
+        $attendance->guard_id = $request->guard_id;
+        $attendance->site_id = $request->site_id;
+        $attendance->date_time = date('Y-m-d H:i:s', strtotime($request->date_time));
+        $attendance->type = $request->type;
+
+        if($attendance->update()) {
+            return response()->json([
+                'error' => false,
+                'data' => $attendance,
+                'message' => 'Attendance updated successfully'
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => 'Could not update attendance'
+            ]);
+        }
     }
 
     /**
