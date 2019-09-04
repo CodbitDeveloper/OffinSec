@@ -158,9 +158,7 @@ class AttendanceController extends Controller
         ]);
 
         $attendance = Attendance::where('id', $request->id)->first();
-
-        $attendance->guard_id = $request->guard_id;
-        $attendance->site_id = $request->site_id;
+        
         $attendance->date_time = date('Y-m-d H:i:s', strtotime($request->date_time));
         $attendance->type = $request->type;
 
