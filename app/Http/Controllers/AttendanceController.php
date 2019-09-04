@@ -103,7 +103,7 @@ class AttendanceController extends Controller
             }
         }
 
-        $attendance->shift_type_id = $guard->duty_rosters[0]->shift_type_id;
+        $attendance->shift_type_id = $guard->duty_rosters[0]->pivot->shift_type_id;
 
         if($attendance->save()){
             return response()->json([

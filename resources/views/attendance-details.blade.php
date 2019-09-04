@@ -46,7 +46,7 @@
                                         @foreach($attendances[1] as $attendance)
                                             <tr>
                                                 <td>{{$attendance->owner_guard->firstname.' '.$attendance->owner_guard->lastname}}</td>
-                                                <td>{{$attendance->shift_type->name}}</td>
+                                                <td>{{$attendance->shift_type == null ? 'N/A' : $attendance->shift_type->name}}</td>
                                                 <td>{{date('jS F, Y', strtotime($attendance->date_time))}}</td>
                                                 <td>{{date('H:i:s', strtotime($attendance->date_time))}}</td>
                                                 <td><a href="javascript:void(0)" onclick="edit('{{$attendance->id}}', '{{date('m/d/Y', strtotime($attendance->date_time))}}', '{{date('H:i:s', strtotime($attendance->date_time))}}', '{{$attendance->type}}')">Edit</a></td>
@@ -73,7 +73,7 @@
                                             @foreach($attendances[0] as $attendance)
                                                 <tr>
                                                     <td>{{$attendance->owner_guard->firstname.' '.$attendance->owner_guard->lastname}}</td>
-                                                <td>{{$attendance->shift_type->name}}</td>
+                                                    <td>{{$attendance->shift_type == null ? 'N/A' : $attendance->shift_type->name}}</td>
                                                     <td>{{date('jS F, Y', strtotime($attendance->date_time))}}</td>
                                                     <td>{{date('H:i:s', strtotime($attendance->date_time))}}</td>
                                                     <td><a href="javascript:void(0)" onclick="edit('{{$attendance->id}}', '{{date('m/d/Y', strtotime($attendance->date_time))}}', '{{date('H:i:s', strtotime($attendance->date_time))}}', '{{$attendance->type}}')">Edit</a></td>
@@ -100,7 +100,7 @@
                                         @foreach($attendances[2] as $attendance)
                                             <tr>
                                                 <td>{{$attendance->owner_guard->firstname.' '.$attendance->owner_guard->lastname}}</td>
-                                                <td>{{$attendance->shift_type->name}}</td>
+                                                <td>{{$attendance->shift_type == null ? 'N/A' : $attendance->shift_type->name}}</td>
                                                 <td>{{date('jS F, Y', strtotime($attendance->date_time))}}</td>
                                                 <td>{{date('H:i:s', strtotime($attendance->date_time))}}</td>
                                                 <td><a href="javascript:void(0)" onclick="edit('{{$attendance->id}}', '{{date('m/d/Y', strtotime($attendance->date_time))}}', '{{date('H:i:s', strtotime($attendance->date_time))}}', '{{$attendance->type}}')">Edit</a></td>
