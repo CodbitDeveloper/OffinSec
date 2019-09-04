@@ -38,7 +38,7 @@ class Guard extends Model
         return $this->belongsToMany('App\Duty_Roster', 'guard_roster', 'guard_id', 'duty_roster_id')
         ->withPivot('shift_type_id', 'day')
         ->join('shift_types', 'shift_type_id', '=', 'shift_types.id')
-        ->select('duty_rosters.*','shift_types.name as pivot_shift_type_name')
+        ->select('duty_rosters.*','shift_types.name as pivot_shift_type_name', 'shift_types.start_time as pivot_shift_type_start_time', 'shift_types.end_time as pivot_shift_type_end_time')
         ->withTimestamps();
     }
     
