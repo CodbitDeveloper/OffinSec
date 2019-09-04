@@ -14,4 +14,9 @@ class Shift_Type extends Model
         'name'
     ];
 
+    public function attendances()
+    {
+        return $this->hasMany('App\Attendance');
+    }
+
 }
