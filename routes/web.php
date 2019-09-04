@@ -10,14 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('auth/login');
-})->middleware('guest');
-
-Auth::routes();
+Route::get('/', "Auth\LoginController@doLogin")->middleware('guest');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/client-access', 'ClientController@clientAccess')->name('client-access.view');
+Route::get('/download/{file}', 'ReportController@download');
+
+Auth::routes();
+
 
 Route::middleware('auth')->group(function(){
     Route::get('/users/add', 'UserController@create')->name('user.add');
@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/attendance', 'AttendanceController@view')->name('view.attendance');
     Route::get('/attendance-details', 'AttendanceController@details')->name('details.attendance');
     Route::get('/guards', 'GuardController@index')->name('guards');
+    Route::get('/archived-guards', 'GuardController@getArchivedGuards')->name('archived-guards');
     Route::get('/guards/add', 'GuardController@create')->name('guard.add');
     Route::get('/guards/reports', 'GuardController@reports')->name('guard.update');
     Route::get('/guard/{id}', 'GuardController@view')->name('guard.view');
@@ -45,7 +46,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/add-guarantors', 'GuardController@addGuarantors')->name('guard.add-guarantors');
     Route::get('/site/{id}', 'SiteController@viewSite')->name('site.view');
     Route::get('/salaries', 'SalaryController@all')->name('salaries.all');
-    Route::get('/download/{file}', 'ReportController@download');
     Route::get('/incidents', 'IncidentController@index');
     Route::get('/occurrences', 'OccurrenceController@index');
 });

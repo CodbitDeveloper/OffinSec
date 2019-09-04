@@ -122,7 +122,17 @@
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Guards</a>
                             <ul class="submenu">
-                                <li><a href="/guards">View Guards</a></li>
+                                <li class="has-submenu">
+                                    <a href="javascript:void(0)">View Guards</a>
+                                    <ul class="submenu">
+                                        <li>
+                                            <a href="/guards">Active Guards</a>
+                                        </li>
+                                        <li>
+                                            <a href="/archived-guards">Archived Guards</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a href="/guards/add">New Guard</a></li>
                                 <li><a href="/guards/reports">Guard Reports</a></li>
                                 <li class="has-submenu">
