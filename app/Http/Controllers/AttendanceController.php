@@ -103,7 +103,7 @@ class AttendanceController extends Controller
             }
         }
 
-        $attendance->shift_type_id = $guard->duty_rosters[0]->shift_type_id;
+        $attendance->shift_type_id = $guard->duty_rosters[0]->pivot->shift_type_id;
 
         if($attendance->save()){
             return response()->json([
@@ -213,7 +213,7 @@ class AttendanceController extends Controller
             'site' => 'required'
         ]);
 
-        $attendance = Attendance::with('site', 'owner_guard', 'owner_guard.duty_rosters')
+        $attendance = Attendance::with('site', 'owner_guard', 'shift_type')
         ->where('site_id', $request->site)->whereRaw("DATE(date_time) = DATE('$request->date')")->get();
         
         $attendances = $attendance->groupBy('type');
