@@ -109,17 +109,17 @@
                         <div class="form-row">
                             <div class="form-group col-sm-12">
                                 <label>Shift Name</label>
-                                <input class="form-control" id="edit_name" name="name"/>
+                                <input class="form-control" name="name" id="edit_name"/>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-12 col-md-6">
                                 <label>Start Time</label>
-                                <input class="form-control datetimepicker" id="edit_start_time" name="start_time"/>
+                                <input class="form-control datetimepicker" id="edit_start_time"/>
                             </div>
                             <div class="form-group col-sm-12 col-md-6">
                                 <label>End Time</label>
-                                <input class="form-control datetimepicker" id="edit_end_time" name="end_time"/>
+                                <input class="form-control datetimepicker" id="edit_end_time"/>
                             </div>
                         </div>
                         <input type="hidden" id="edit_id"/>
@@ -213,9 +213,12 @@
     $("#delete_shift_form").on("submit", function(e){
         e.preventDefault();
         const btn = $(this).find("[type=submit]");
+        const initial_text = btn.html();
 
+        applyLoading(btn);
+        
         $.ajax({
-            url : `/api/shift-type/delete/${$("#delete_shift").val()}`,
+            url : `/api/shift-type/delete/${$("#delete-shift-id").val()}`,
             method : "DELETE",
             success: function(data){
                 removeLoading(btn, initial_text);
@@ -274,10 +277,14 @@
         const start_time = "1970-01-01 "+$("#edit_start_time").val();
         const end_time = "1970-01-01 "+$("#edit_end_time").val();
 
+        data += `name=${$('#edit_name').val()}&start_time=${start_time}&end_time=${end_time}`;
+
+        const initial_text = btn.html();
+
         applyLoading(btn);
 
         $.ajax({
-        url : "/api/shift-type/update/"+$("#edit_id").val(id),
+        url : "/api/shift-type/update/"+$("#edit_id").val(),
         method : "PUT",
         data : data,
         success: function(data){

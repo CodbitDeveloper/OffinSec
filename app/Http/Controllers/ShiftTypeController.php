@@ -55,7 +55,7 @@ class ShiftTypeController extends Controller
         $shift_type->end_time = date("Y-m-d H:i:s", strtotime($request->end_time));
 
 
-        if(Shift_Type::whereTime('start_time', $shift_type->start_time)->orWhereTime('end_time', $shift_type->end_time)->get()->count() > 0) {
+        if(Shift_Type::whereRaw("TIME(start_time) = TIME('$shift_type->start_time') or TIME(end_time) = TIME('$shift_type->end_time')")->get()->count() > 0) {
             return response()->json([
                 'error' => true,
                 'message' => 'Start or end time already allocated'
@@ -63,7 +63,7 @@ class ShiftTypeController extends Controller
         }
         
 
-        if($shift_type->save()){
+         if($shift_type->save()){
             return response()->json([
                 'error' => false,
                 'data' => $shift_type,
@@ -106,9 +106,31 @@ class ShiftTypeController extends Controller
      * @param  \App\Shift_Type  $shift_Type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shift_Type $shift_Type)
+    public function update(Request $request, Shift_Type $shiftType)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required'
+        ]);
+
+
+        $shiftType->name = $request->name;
+        $shiftType->start_time = date("Y-m-d H:i:s", strtotime($request->start_time));
+        $shiftType->end_time = date("Y-m-d H:i:s", strtotime($request->end_time));
+
+        if($shiftType->update()) {
+            return response()->json([
+                'error' => false,
+                'data' => $shiftType,
+                'message' => 'Shift type updated successfully'
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => 'Could not update shift type. Try again'
+            ]);
+        }
     }
 
     /**
@@ -117,8 +139,21 @@ class ShiftTypeController extends Controller
      * @param  \App\Shift_Type  $shift_Type
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shift_Type $shift_Type)
+    public function destroy(Shift_Type $shiftType)
     {
-        //
+        $delete = $shiftType->delete();
+
+        if($delete) {
+            return response()->json([
+                'error' => false,
+                'data' => $delete,
+                'message' => 'Shift type deleted successfully'
+            ]);
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => 'Could not delete shift type. Try again'
+            ]);
+        }
     }
 }
