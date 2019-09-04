@@ -26,7 +26,7 @@ class ShiftTypeController extends Controller
      */
     public function create()
     {
-        return view('add-shift_type');
+        return view('shift_type');
     }
 
     /**
@@ -38,12 +38,30 @@ class ShiftTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required'
         ]);
 
         $shift_type = new Shift_Type();
 
         $shift_type->name = $request->name;
+        $shift_type->start_time = $request->start_time;
+        $shift_type->end_time = $request->end_time;
+
+        if(Shift_Type::where('name', $request->name)->get()->count() > 0) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Shift type name already exists'
+            ]);
+        }
+
+        if(Shift_Type::where([['start_time', $request->start_time], ['end_time', $request->end_time]])->get()->count() > 0) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Start or end time already allocated'
+            ]);
+        }
 
         if($shift_type->save()){
             return response()->json([
@@ -60,7 +78,7 @@ class ShiftTypeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the speci fied resource.
      *
      * @param  \App\Shift_Type  $shift_Type
      * @return \Illuminate\Http\Response
