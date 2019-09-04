@@ -148,17 +148,13 @@ class AttendanceController extends Controller
      * @param  \App\Attendance  $attendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Attendance $attendance)
     {
         $request->validate([
-            'guard_id' => 'required',
-            'site_id' => 'required',
             'date_time' => 'required',
             'type' => 'required'
         ]);
 
-        $attendance = Attendance::where('id', $request->id)->first();
-        
         $attendance->date_time = date('Y-m-d H:i:s', strtotime($request->date_time));
         $attendance->type = $request->type;
 

@@ -125,7 +125,7 @@
                 <h4 class="modal-title mt-2">Edit Attendance</h4>
             </div>
             <div class="modal-body p-4">
-                <form role="form" id="record_attendance">
+                <form role="form" id="edit_attendance_form">
                     <div class="form-group mb-4">
                         <select class="selectpicker show-tick" data-style="btn-light col-md-12" title="Attendance Type"
                             id="record_type" name="type" data-live-search="true">
@@ -206,11 +206,65 @@
     const edit = (id, date, time, type) => {
         selected_attendance = id;
         $("#date_in").val(date);
+        $("#date_in").datepicker("update", date);
         $("#time_in").val(time);
         $("#record_type").val(type);
         $("#record_type").selectpicker("refresh");
 
         $("#edit-attendance").modal("show");
     }
+
+    $("#edit_attendance_form").on("submit", function(e){
+        e.preventDefault();
+
+        data = $(this).serialize();
+        var date_time = $('#date_in').val()+' '+$('#time_in').val();
+        data += '&date_time='+date_time;
+        btn = $(this).find('[type="submit"]');
+        
+        applyLoading(btn);
+
+
+        $.ajax({
+            url : `/api/attendance/update/${selected_attendance}`,
+            method : 'PUT',
+            data : data,
+            success: function(data){
+                removeLoading(btn, 'Save');
+                    if(data.error){
+                        removeLoading(btn, 'Save');
+
+                        $.toast({
+                            text : data.message,
+                            heading : 'Error',
+                            position: 'top-right',
+                            showHideTransition : 'slide', 
+                            bgColor: '#d9534f'
+                        });
+                    }else{
+
+                        $('#new_client').trigger('reset');
+                        $.toast({
+                            text : data.message,
+                            heading : 'Done',
+                            position: 'top-right',
+                            bgColor : '#5cb85c',
+                            showHideTransition : 'slide'
+                        });
+                    }
+            },
+            error: function(err){
+                removeLoading(btn, 'Save');
+
+                $.toast({
+                    text : 'Network error',
+                    heading : 'Error',
+                    position: 'top-right',
+                    showHideTransition : 'slide', 
+                    bgColor: '#d9534f'
+                });
+            }
+        });
+    })
 </script>
 @endsection

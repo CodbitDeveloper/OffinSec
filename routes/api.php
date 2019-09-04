@@ -76,3 +76,4 @@ Route::post('/salaries/reset', 'ClientSalaryController@reset');
 Route::get('/salaries/get', 'SalaryController@getAll');
 Route::post('/salaries/generate', 'SalaryController@generate');
 Route::post('/shift-type/add', 'ShiftTypeController@store');
+Route::put('/attendance/update/{attendance}', 'AttendanceController@update');
