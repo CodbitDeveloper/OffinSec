@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/clients', 'ClientController@index')->name('clients');
     Route::get('/client/{id}', 'ClientController@view')->name('client');
     Route::get('/client/manage-salaries/{id}', 'ClientController@manageSalaries')->name('client.manage-salaries');
+    Route::get('/shift-types/add', 'ShiftTypeController@create')->name('shift-type.add');
     
     Route::get('/attendance', 'AttendanceController@view')->name('view.attendance');
     Route::get('/attendance-details', 'AttendanceController@details')->name('details.attendance');
