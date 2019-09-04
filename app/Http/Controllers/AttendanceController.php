@@ -213,7 +213,7 @@ class AttendanceController extends Controller
             'site' => 'required'
         ]);
 
-        $attendance = Attendance::with('site', 'owner_guard', 'owner_guard.duty_rosters')
+        $attendance = Attendance::with('site', 'owner_guard', 'shift_type')
         ->where('site_id', $request->site)->whereRaw("DATE(date_time) = DATE('$request->date')")->get();
         
         $attendances = $attendance->groupBy('type');
