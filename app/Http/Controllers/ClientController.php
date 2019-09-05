@@ -269,7 +269,7 @@ class ClientController extends Controller
     {
         $date = date('Y-m-d');
 
-        $client = Access_Code::whereRaw("access_code='$request->token' AND DATE(expires_at) <= '$date'")->first();
+        $client = Access_Code::whereRaw("access_code='$request->token' AND DATE(expires_at) >= '$date'")->first();
 
         if($client == null){
             return abort(403);
