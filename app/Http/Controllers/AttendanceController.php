@@ -83,7 +83,7 @@ class AttendanceController extends Controller
         
         if($request->type == 1){
             $end = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_end_time) - 3600));
-            $start = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_start_time) - 3600));;
+            $start = strtotime(date("H:i:s", strtotime($guard->duty_rosters[0]->pivot->shift_type_start_time) - (3 * 3600)));;
 
             if($sign_in_time > $end || $sign_in_time < $start){
                 return response()->json([
