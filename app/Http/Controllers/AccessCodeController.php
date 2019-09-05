@@ -43,7 +43,7 @@ class AccessCodeController extends Controller
 
         $date = date('Y-m-d');
         
-        if(Access_Code::whereRaw("client_id='$request->client_id' AND DATE(expires_at) <= '$date'")->get()->count() > 0){
+        if(Access_Code::whereRaw("client_id='$request->client_id' AND DATE(expires_at) >= '$date'")->get()->count() > 0){
             return response()->json([
                 'error' => true,
                 'message' => "A valid access token exists for this client"
