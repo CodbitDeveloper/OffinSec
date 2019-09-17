@@ -57,7 +57,7 @@ class FingerprintController extends Controller
         $fingerprint->LTISO = $request->RTB64;
         $fingerprint->guard_id = $request->guard_id;
 
-        if($fingerprint->save(){
+        if($fingerprint->save()){
 			return response()->json([
 				"error" => false,
 				"message" => "Fingerprint saved";
