@@ -38,6 +38,18 @@ class FingerprintController extends Controller
     public function store(Request $request)
     {
         //
+		
+		$test = Fingerprint::where("guard_id", $request->guard_id)->first();
+		
+		if($test != null ){
+			
+			return response()->json([
+				"error" => true,
+				"message" => "This guard already has a fingerprint saved" 
+			]);
+			
+		}
+		
         $fingerprint = new Fingerprint();
         $fingerprint->RTB64 = $request->RTB64;
         $fingerprint->LTB64 = $request->RTB64;
@@ -45,7 +57,17 @@ class FingerprintController extends Controller
         $fingerprint->LTISO = $request->RTB64;
         $fingerprint->guard_id = $request->guard_id;
 
-        return $fingerprint->save();
+        if($fingerprint->save(){
+			return response()->json([
+				"error" => false,
+				"message" => "Fingerprint saved";
+			]);
+		}else{
+			return response()->json([
+				"error" => true,
+				"message" => "Could not save fingerprint";
+			]);
+		}
     }
 
     /**
@@ -102,10 +124,10 @@ class FingerprintController extends Controller
         $guard = Guard::where("id", $request->guard_id)->first();
 		
 		if($guard != null){
-        $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
-        $guard->photo = $fileName;
-		$guard->save();
-        return response()->json(["error" => false]);
+			$fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
+			$guard->photo = $fileName;
+			$guard->save();
+			return response()->json(["error" => false]);
 		}
 		
 		return response()->json(["error" => true]);
