@@ -104,9 +104,10 @@ class FingerprintController extends Controller
 		if($guard != null){
         $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
         $guard->photo = $fileName;
-        return $guard->save();
+		status  = $guard->save();
+        return response()->json(["error" => false]);
 		}
 		
-		return false;
+		return response()->json(["error" => true]);
     }
 }
