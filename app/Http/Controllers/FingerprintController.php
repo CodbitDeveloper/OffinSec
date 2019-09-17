@@ -94,6 +94,11 @@ class FingerprintController extends Controller
     }
 
     public function saveImage(Request $request){
+		$request->validate([
+			"guard_id" => "required",
+			"image" => "required"
+		]);
+		
         $guard = Guard::where("id", $request->guard_id)->first();
         $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
         $guard->photo = $fileName;
