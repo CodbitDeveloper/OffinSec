@@ -60,12 +60,12 @@ class FingerprintController extends Controller
         if($fingerprint->save()){
 			return response()->json([
 				"error" => false,
-				"message" => "Fingerprint saved";
+				"message" => "Fingerprint saved"
 			]);
 		}else{
 			return response()->json([
 				"error" => true,
-				"message" => "Could not save fingerprint";
+				"message" => "Could not save fingerprint"
 			]);
 		}
     }
