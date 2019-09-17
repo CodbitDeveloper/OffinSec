@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Site;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -104,5 +105,9 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
         //
+    }
+
+    public function getSiteContacts(Site $site){
+        return response()->json($site->contacts()->get());
     }
 }

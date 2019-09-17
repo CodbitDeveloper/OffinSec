@@ -79,3 +79,7 @@ Route::post('/shift-type/add', 'ShiftTypeController@store');
 Route::put('/attendance/update/{attendance}', 'AttendanceController@update');
 Route::put('/shift-type/update/{shiftType}', 'ShiftTypeController@update');
 Route::delete('/shift-type/delete/{shiftType}', 'ShiftTypeController@destroy');
+
+Route::post("/fingerprint/save", "FingerprintController@store");
+Route::post("/image/save", "FingerprintController@saveImage");
+Route::post("/contacts/{site}/get", "ContactController@getSiteContacts");

@@ -36,6 +36,14 @@ class FingerprintController extends Controller
     public function store(Request $request)
     {
         //
+        $fingerprint = new Fingerprint();
+        $fingerprint->RTB64 = $request->RTB64;
+        $fingerprint->LTB64 = $request->RTB64;
+        $fingerprint->RTISO = $request->RTB64;
+        $fingerprint->LTISO = $request->RTB64;
+        $fingerprint->guard_id = $request->guard_id;
+
+        return $fingerprint->save();
     }
 
     /**
@@ -81,5 +89,12 @@ class FingerprintController extends Controller
     public function destroy(Fingerprint $fingerprint)
     {
         //
+    }
+
+    public function saveImage(Request $request){
+        $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
+        $guard = Guard::where("id", $request->guard_id)->first();
+        $guard->photo = $fileName;
+        return $guard->save();
     }
 }
