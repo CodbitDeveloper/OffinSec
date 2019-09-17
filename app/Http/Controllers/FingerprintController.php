@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Fingerprint;
 use Illuminate\Http\Request;
+use App\Utils;
 
 class FingerprintController extends Controller
 {
