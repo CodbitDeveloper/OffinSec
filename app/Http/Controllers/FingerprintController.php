@@ -100,8 +100,13 @@ class FingerprintController extends Controller
 		]);
 		
         $guard = Guard::where("id", $request->guard_id)->first();
+		
+		if($guard != null){
         $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
         $guard->photo = $fileName;
         return $guard->save();
+		}
+		
+		return false;
     }
 }
