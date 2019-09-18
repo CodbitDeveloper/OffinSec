@@ -41,7 +41,7 @@ class FingerprintController extends Controller
 		
 		$test = Fingerprint::where("guard_id", $request->guard_id)->first();
 		
-		if($test != null ){
+		if($test != null && $test->RTB64 != "undefined"){
 			
 			return response()->json([
 				"error" => true,
