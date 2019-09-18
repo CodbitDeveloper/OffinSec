@@ -72,7 +72,7 @@
 
                                 <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">{{$site->location}}</span></p>
 
-                                <p class="text-muted font-13"><strong>Supervisor :</strong> <span class="m-l-15">{{$site->supervisor->firstname.' '.$site->supervisor->lastname}}</span></p>
+                                <p class="text-muted font-13"><strong>Supervisor :</strong> <span class="m-l-15">{{$site->supervisor != null ? $site->supervisor->firstname.' '.$site->supervisor->lastname : 'N/A'}}</span></p>
                             </div>
                         </div>
                     </div>
