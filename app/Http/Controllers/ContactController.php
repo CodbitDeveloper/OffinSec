@@ -107,7 +107,10 @@ class ContactController extends Controller
         //
     }
 
-    public function getSiteContacts(Site $site){
-        return response()->json($site->contacts()->get());
+    public function getSiteContacts(Request $request){
+		$request->validate([
+			"site_id" => "required"
+		]);
+        return response()->json(Contact::where("site_id", $request->site_id)->get());
     }
 }
