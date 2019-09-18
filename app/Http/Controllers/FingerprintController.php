@@ -48,25 +48,45 @@ class FingerprintController extends Controller
 				"message" => "This guard already has a fingerprint saved" 
 			]);
 			
-		}
 		
-        $fingerprint = new Fingerprint();
-        $fingerprint->RTB64 = $request->RTB64;
-        $fingerprint->LTB64 = $request->RTB64;
-        $fingerprint->RTISO = $request->RTB64;
-        $fingerprint->LTISO = $request->RTB64;
-        $fingerprint->guard_id = $request->guard_id;
-
-        if($fingerprint->save()){
-			return response()->json([
-				"error" => false,
-				"message" => "Fingerprint saved"
-			]);
+		
+		if($test->RTB64 == "undefined"){
+			$test->RTB64 = $request->RTB64;
+			$test->LTB64 = $request->RTB64;
+			$test->RTISO = $request->RTB64;
+			$test->LTISO = $request->RTB64;
+			
+			if($test->save()){
+				return response()->json([
+					"error" => false,
+					"message" => "Fingerprint saved"
+				]);
+			}else{
+				return response()->json([
+					"error" => true,
+					"message" => "Could not save fingerprint"
+				]);
+			}
 		}else{
-			return response()->json([
-				"error" => true,
-				"message" => "Could not save fingerprint"
-			]);
+		
+			$fingerprint = new Fingerprint();
+			$fingerprint->RTB64 = $request->RTB64;
+			$fingerprint->LTB64 = $request->RTB64;
+			$fingerprint->RTISO = $request->RTB64;
+			$fingerprint->LTISO = $request->RTB64;
+			$fingerprint->guard_id = $request->guard_id;
+
+			if($fingerprint->save()){
+				return response()->json([
+					"error" => false,
+					"message" => "Fingerprint saved"
+				]);
+			}else{
+				return response()->json([
+					"error" => true,
+					"message" => "Could not save fingerprint"
+				]);
+			}
 		}
     }
 
