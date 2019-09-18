@@ -82,4 +82,4 @@ Route::delete('/shift-type/delete/{shiftType}', 'ShiftTypeController@destroy');
 
 Route::post("/fingerprint/save", "FingerprintController@store");
 Route::post("/image/save", "FingerprintController@saveImage");
-Route::post("/contacts/get", "ContactController@getSiteContacts");
+Route::get("/contacts/get", "ContactController@getSiteContacts");
