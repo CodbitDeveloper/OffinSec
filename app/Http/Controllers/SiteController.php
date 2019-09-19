@@ -178,11 +178,14 @@ class SiteController extends Controller
             $q->where('site_id', $site_id);
         };
 
-        $guards = DB::select(DB::raw("SELECT guards.*, fingerprints.rtb64 FROM guards 
-        LEFT JOIN (fingerprints, duty_rosters, sites, guard_roster) ON guards.id = fingerprints.guard_id and guard_roster.guard_id = guards.id and duty_rosters.site_id = sites.id and guard_roster.duty_roster_id = duty_rosters.id and sites.id = '$site_id' WHERE guards.deleted_at IS NULL"));
+        $guards = DB::select(DB::raw("SELECT guards.*, fingerprints.rtb64 FROM guards INNER JOIN (duty_rosters, sites, guard_roster) ON guard_roster.guard_id = guards.id and duty_rosters.site_id = sites.id and guard_roster.duty_roster_id = duty_rosters.id and sites.id = '$site_id' LEFT OUTER JOIN fingerprints ON guards.id = fingerprints.guard_id WHERE guards.deleted_at IS NULL"));
+		
+		/*$guards = Guard::whereHas("duty_rosters", function($q) use($site_id){
+            $q->where('site_id', $site_id);
+        })->with("fingerprints")*/
 
         $guards = collect($guards);
-        $guards = $guards->values()->toArray();
+        $guards = $guards->unique('id')->values()->toArray();
         
         return response()->json([
             'error' => false,
