@@ -48,7 +48,7 @@ class FingerprintController extends Controller
 				"message" => "This guard already has a fingerprint saved" 
 			]);
 			
-		
+		}
 		
 		if($test->RTB64 == "undefined"){
 			$test->RTB64 = $request->RTB64;
