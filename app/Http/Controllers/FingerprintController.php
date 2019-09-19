@@ -50,7 +50,7 @@ class FingerprintController extends Controller
 			
 		}
 		
-		if($test->RTB64 == "undefined"){
+		if($test != null && $test->RTB64 == "undefined"){
 			$test->RTB64 = $request->RTB64;
 			$test->LTB64 = $request->RTB64;
 			$test->RTISO = $request->RTB64;
