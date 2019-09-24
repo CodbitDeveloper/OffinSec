@@ -49,4 +49,5 @@ Route::middleware('auth')->group(function(){
     Route::get('/salaries', 'SalaryController@all')->name('salaries.all');
     Route::get('/incidents', 'IncidentController@index');
     Route::get('/occurrences', 'OccurrenceController@index');
+    Route::delete('/fingerprint/delete/{fingerprint}', 'FingerprintController@destroy');
 });

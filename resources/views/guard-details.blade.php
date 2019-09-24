@@ -53,6 +53,16 @@
                             </div>
                         </div>
                         <!--/ meta -->
+                        
+                        <div class="row text-right">
+                            <div class="col-sm-12">
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#delete-fingerprint">
+                                    <p class="badge badge-pill">
+                                        Delete Fingerprint
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -353,6 +363,27 @@
             </div>
         </div>
     </div>
+    <div id="delete-fingerprint" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Fingerprint</h4>	
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <form method="post" action="/fingerprint/delete/{{$guard->id}}">
+                    @csrf
+                    <input type="hidden" name="_method" value="delete"/>
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove this guard's fingerpirnt. Remember that this process cannot be reversed</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Remove Fingerprint</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
 <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
@@ -364,6 +395,16 @@
     $('#edit_guard_form').find('select').on('change', function(e){
         $('#edit_guard_form').find('[type="submit"]').prop('disabled', false);
     });
+
+    @if(session('success') != null)
+    $.toast({
+                text : "{{session('success')}}",
+                heading : 'Done',
+                position: 'top-right',
+                bgColor : '#5cb85c',
+                showHideTransition : 'slide'
+            });
+    @endif
 
     @if($guard->deleted_at == null)
     function deleteGuard(guard)

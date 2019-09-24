@@ -133,6 +133,10 @@ class FingerprintController extends Controller
     public function destroy(Fingerprint $fingerprint)
     {
         //
+        $guard = $fingerprint->guard_id;
+        $fingerprint->forceDelete();
+
+        return \redirect("/guard/$guard")->with("success", "Guard fingerprint has been deleted");
     }
 
     public function saveImage(Request $request){
