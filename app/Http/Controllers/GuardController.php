@@ -39,6 +39,14 @@ class GuardController extends Controller
         ]);*/
     }
 
+    /**
+     * ----------------------------------
+     * Get a guard with their guarantor
+     * ----------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function getGuardGuarantor(Request $request)
     {
         $guard = Guard::with('guarantor')->where('id', $request->id)->first();
@@ -48,9 +56,11 @@ class GuardController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * --------------------
+     * Add guard and role
+     * --------------------
+     * 
+     * @return view
      */
     public function create()
     {
@@ -270,6 +280,14 @@ class GuardController extends Controller
         }
     }
 
+    /**
+     * ----------------------
+     * Add guard to welfare
+     * ----------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function welfare (Request $request)
     {
         $guard = Guard::where('id', $request->id)->first();
@@ -307,6 +325,14 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------
+     * Display guard details
+     * ------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function view(Request $request){
         $guard = Guard::withTrashed()->with('duty_rosters', 'duty_rosters.site', 'duty_rosters.site.client', 'guarantors', 'role')->where('id', $request->id)->first();
         $roles = Role::all();
@@ -318,6 +344,13 @@ class GuardController extends Controller
         ]);*/
     }
 
+    /**
+     * --------------------------------------------------
+     * Display all guards who are members of the welfare
+     * --------------------------------------------------
+     * 
+     * @return view
+     */
     public function welfareGuards()
     {
         $guards = Guard::where('welfare', 1)->get();
@@ -325,11 +358,25 @@ class GuardController extends Controller
         return view('welfare-guard')->with('guards', $guards);
     }
 
+    /**
+     * -----------------------------
+     * View page for viewing report
+     * -----------------------------
+     * 
+     * @return view
+     */
     public function reports(){
         $clients = Client::with('sites')->get();
         return view('guard-report', compact('clients'));
     }
 
+    /**
+     * --------------------------------------
+     * Generate guard reports based on gender
+     * --------------------------------------
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function getGuardsByGender(){
         $guards = DB::select("SELECT count(id) as total, gender from guards group by gender");
         return response()->json([
@@ -338,6 +385,13 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------------------
+     * Generate guard reports based on age range
+     * -------------------------------------------
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function getGuardsByAgeRange(){
         $guards = DB::select("SELECT SUM(IF(age < 20,1,0)) as 'Under 20', SUM(IF(age BETWEEN 20 and 29,1,0)) as '20 - 29',
         SUM(IF(age BETWEEN 30 and 39,1,0)) as '30 - 39', SUM(IF(age BETWEEN 40 and 49,1,0)) as '40 - 49', SUM(IF(age BETWEEN 50 and 149,1,0)) as 'Over 50'
@@ -349,6 +403,13 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * -------------------------------------
+     * Generate guard reports based on site
+     * --------------------------------------
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function getGuardsBySite(){
         $sites = Site::with('duty_roster', 'duty_roster.guards')->get();
         
@@ -366,6 +427,14 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * ---------------------------------------------------------
+     * Get a report of site incident occurrences and attendance
+     * ---------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getSiteReport(Request $request){
         $request->validate([
             'site_id' => 'required',
@@ -390,10 +459,25 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * ----------------------------
+     * Present view for CSV upload
+     * ----------------------------
+     * 
+     * @return view
+     */
     public function uploadExcel(){
         return view('csv-upload');
     }
 
+    /**
+     * ---------------------------------
+     * Upload guard data from CSV to DB
+     * ---------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function uploadToDb(Request $request){
         if($request->file('csvfile') != null){
             //handle save data from csv
@@ -486,12 +570,27 @@ class GuardController extends Controller
         }
     }
 
+    /**
+     * -------------------------------------
+     * View to update fingerprint and image
+     * -------------------------------------
+     * 
+     * @return view
+     */
     public function uploadBios(){
         $guards = Guard::all();
 
         return view('biometrics')->with('guards', $guards);
     }
 
+    /**
+     * -----------------------------
+     * Update fingerprint or image
+     * -----------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateBio(Request $request){
         $request->validate([
             "guard_id" => "required", 
@@ -529,11 +628,26 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * -----------------------------
+     * Present for adding guarantor
+     * -----------------------------
+     * 
+     * @return view
+     */
     public function addGuarantors(){
         $guards = Guard::all();
         return view('guarantor-add')->with('guards', $guards);
     }
 
+    /**
+     * -------------------------
+     * Get a particular guard
+     * -------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getGuard(Request $request){
         $request->validate([
             'guard_id' => 'required'
@@ -547,6 +661,14 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------------------
+     * Remove guard from archive to active guards
+     * ------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function removeFromArchive(Request $request){
         $guard = Guard::onlyTrashed()->where("id", $request->guard)->first();
         $guard->deleted_at = null;
@@ -565,6 +687,14 @@ class GuardController extends Controller
         ]);
     }
 
+    /**
+     * -------------------------------
+     * View a list of archived guards
+     * -------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function getArchivedGuards(Request $request){
         $guards = Guard::onlyTrashed()->paginate(15);
         $searching = false;

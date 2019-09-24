@@ -25,6 +25,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * -------------------
+     * Get all users
+     * -------------------
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function allUsers()
     {
         $users = User::all();
@@ -158,6 +165,14 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------------------------
+     * Setting a user's account to active or inactive
+     * ------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function toggleActive(Request $request)
       {
          $request->validate([
@@ -200,6 +215,14 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * -------------------------------------------
+     * Updating user's profile with the password
+     * --------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function myAccount(Request $request)
     {
         $status = true;

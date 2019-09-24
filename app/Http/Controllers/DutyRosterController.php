@@ -156,6 +156,14 @@ class DutyRosterController extends Controller
         //
     }
 
+    /**
+     * --------------------------------------------------------
+     * Display duty roster for all guards for a particular site
+     * --------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function view(Request $request){
         $site = Site::where('id', $request->id)->first();
         $guards = Guard::whereDoesntHave('duty_rosters')
@@ -187,6 +195,14 @@ class DutyRosterController extends Controller
         ]);*/
     }
 
+    /**
+     * ----------------------------
+     * Add guard to a duty roster
+     * ----------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function add_guard(Request $request){
         $request->validate([
             'roster_id' => 'required',
@@ -211,6 +227,14 @@ class DutyRosterController extends Controller
         ]);
     }
 
+    /**
+     * --------------------------------
+     * Remove guard from a duty roster
+     * --------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function removeRoster(Request $request)
     {
         $request->validate([
@@ -284,6 +308,14 @@ class DutyRosterController extends Controller
         ]);
     }
 
+    /**
+     * ---------------------------------------------------------
+     * View all guards that can swap shifts with selected guard
+     * ---------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getSwappers(Request $request){
         $request->validate([
             'guard' => 'required',
@@ -309,6 +341,14 @@ class DutyRosterController extends Controller
         ]);
     }
 
+    /**
+     * --------------------------
+     * swap shifts of two guards 
+     * --------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */ 
     public function swap(Request $request){
         $request->validate([
             'swap_with' => 'required',

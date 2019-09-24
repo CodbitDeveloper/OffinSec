@@ -109,6 +109,14 @@ class ClientSalaryController extends Controller
         //
     }
 
+    /**
+     * ----------------------------------------------
+     * Update client salary records for single guard
+     * ----------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function updateSalary(Request $request)
     {
         $request->validate([
@@ -134,6 +142,14 @@ class ClientSalaryController extends Controller
         }
     }
 
+    /**
+     * ----------------------------------------------------------
+     * Update guard salary for a particular client based on role
+     * ----------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function salaryByRole(Request $request)
     {
         /*$guard_salary = ClientSalary::whereHas('guard_clientSalary', function($q) use ($request){
@@ -171,6 +187,14 @@ class ClientSalaryController extends Controller
         ]);
     }
 
+    /**
+     * ---------------------------------------------------
+     * Update salaries for guards for a particular client
+     * ---------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function salaryByClient(Request $request){
 
         ClientSalary::where('client_id', $request->client_id)->forceDelete();
@@ -196,6 +220,11 @@ class ClientSalaryController extends Controller
         ]);
     }
 
+    /**
+     * ----------------------------------------------------------------------
+     * Check if salary has been generated for a guard for a particular month
+     * ----------------------------------------------------------------------
+     */
     public function runUpdate(Request $request){
         $request->validate([
             "client_id" => "required",
@@ -213,6 +242,13 @@ class ClientSalaryController extends Controller
 
     }
 
+    /**
+     * -----------------------------------------------------------------------------------------
+     * Checks how to apply salary to guards for a particular month whether by role or by client
+     * -----------------------------------------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function applyToMultiple(Request $request){
         $request->validate([
             "client_id" => "required",
@@ -227,6 +263,14 @@ class ClientSalaryController extends Controller
         }
     }
 
+    /**
+     * -------------------------------------------------------
+     * Resets salaries for all guards for a particular client
+     * -------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function reset(Request $request){
         $request->validate([
             'client_id' => 'required'

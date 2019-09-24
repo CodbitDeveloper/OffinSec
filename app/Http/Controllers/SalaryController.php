@@ -114,11 +114,26 @@ class SalaryController extends Controller
         //
     }
 
+    /**
+     * -----------------------------
+     * Display all clients
+     * -----------------------------
+     * 
+     * @return view
+     */
     public function all(){
         $clients = Client::orderBy('name', 'ASC')->get();
         return view('salaries', compact('clients'));
     }
 
+    /**
+     * ----------------------------------------------------
+     * Get salaries for all guards for a particular month
+     * ----------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getAll(Request $request){
         $request->validate([
             'date' => 'required'
@@ -133,6 +148,14 @@ class SalaryController extends Controller
         ]);
     }
 
+    /**
+     * -------------------------------------------------------
+     * Generate salaries for a particular month for all guards
+     * --------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function generate(Request $request){ 
         
         $request->validate([
