@@ -13,6 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
+/**
+ * API Authentication
+ * 
+ * JSON Web Token (JWT)
+ * ***Check https://jwt-auth.readthedocs.io/en/docs/laravel-installation/  for documentation and installation***
+ */
+
 Route::get('users/', 'UserController@index');
 Route::post('users/add', 'UserController@store');
 Route::get('users/{user}', 'UserController@show');
