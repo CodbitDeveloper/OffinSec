@@ -19,7 +19,7 @@
                                             <option value="1">Guards by site</option>
                                             <option value="2">Guards by gender</option>
                                             <option value="3">Guards by age distribution</option>
-                                            <option value="4">Site reports</option>
+                                            <!--option value="4">Site reports</option-->
                                         </select>
                                     </div>
                                     <div class="form-group mb-2" id="site-container" style="display:none;">
