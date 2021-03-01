@@ -117,6 +117,13 @@ class AccessCodeController extends Controller
         //
     }
 
+    /**
+     * ------------------------------------------------
+     * Used for generating random string (access code)
+     * ------------------------------------------------
+     * 
+     * @param $length
+     */
     public function generateCode($length)
     {
         $str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -131,6 +138,14 @@ class AccessCodeController extends Controller
         return $id;
     }
 
+    /**
+     * --------------------------------------------
+     * Send token to client for client page access
+     * --------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function sendToken(Request $request)
     {
         $request->validate([
@@ -166,6 +181,14 @@ class AccessCodeController extends Controller
         }
     }
 
+    /**
+     * ----------------------
+     * Reset code 
+     * ----------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function resetCode(Request $request)
     {
         $request->validate([

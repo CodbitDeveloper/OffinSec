@@ -60,11 +60,23 @@ class LoginController extends Controller
         ];
     }
 
+    /**
+     * --------------------------------------
+     * Login using username instead of email
+     * --------------------------------------
+     */
     public function username()
     {
         return 'username';
     }
 
+    /**
+     * -------------------
+     * User login
+     * -------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function login(Request $request)
     {
         $this->validateLogin($request);
@@ -92,7 +104,11 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    
+    /**
+     * --------------------
+     * User logout
+     * --------------------
+     */
     public function userLogout()
     {
         Auth::guard('web')->logout();
@@ -100,6 +116,13 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * -------------------
+     * Login page
+     * -------------------
+     * 
+     * @return view
+     */
     public function doLogin()
     {
         return view("auth/login");

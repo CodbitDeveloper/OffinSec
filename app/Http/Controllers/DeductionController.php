@@ -158,6 +158,14 @@ class DeductionController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------------------
+     * Record deductions for a particular guard 
+     * ------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function deductGuard(Request $request)
     {
         $request->validate([
@@ -178,10 +186,26 @@ class DeductionController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------
+     * Display all guards deductions
+     * -------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function guardDeductions(Request $request){
         return view('guard-deductions');
     }
 
+    /**
+     * -----------------------------------------------------
+     * Get deductions for all guards for a particular month
+     * -----------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function viewMonthly(Request $request){
         $request->validate([
             'date' => 'required'

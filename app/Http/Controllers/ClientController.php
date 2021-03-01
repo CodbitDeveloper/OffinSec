@@ -39,12 +39,15 @@ class ClientController extends Controller
 
 
         return view('clients')->with('clients', $clients);
-
-        /*return response()->json([
-            'clients' => $clients
-        ]);*/
     }
 
+    /**
+     * ------------------------
+     * Get client with sites
+     * ------------------------
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function getClientSites()
     {
         $client = Client::with('sites')->get();
@@ -197,6 +200,14 @@ class ClientController extends Controller
         ]);
     }
 
+    /**
+     * -------------------------------------
+     * Display client with sites and guards
+     * -------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function view(Request $request){
         $client = Client::with('sites', 'sites.duty_roster.guards')
         ->where('id', $request->id)->first();
@@ -218,6 +229,14 @@ class ClientController extends Controller
         return view('client-details')->with('client', $client)->with('guards', $guards);
     }
 
+    /**
+     * -----------------------------
+     * Generate report for client 
+     * -----------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function report(Request $request){
         $request->validate([
             'site' => 'required',
@@ -239,6 +258,14 @@ class ClientController extends Controller
         ]);
     }
 
+    /**
+     * ------------------------------------------
+     * Change or update contract duration (date)
+     * -------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function changeDate(Request $request)
     {
         $request->validate([
@@ -265,6 +292,14 @@ class ClientController extends Controller
 
     }
 
+    /**
+     * ------------------------------
+     * Display client access page
+     * ------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view 
+     */
     public function clientAccess(Request $request)
     {
         $date = date('Y-m-d');
@@ -291,6 +326,14 @@ class ClientController extends Controller
         return view('client-access')->with('client', $client);
     }
 
+    /**
+     * -------------------------
+     * Manage client salaries
+     * -------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function manageSalaries(Request $request){
         $client = $request->id;
         $client = Client::where('id', $client)->with('sites', 'sites.duty_roster')->with(['sites.duty_roster.guards' => function($q) use ($client){

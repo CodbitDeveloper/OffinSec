@@ -114,6 +114,14 @@ class AttendanceRequestController extends Controller
         //
     }
 
+    /**
+     * ------------------------------------
+     * Update status of attendance request
+     * ------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function approve(Request $request)
     {
         $request->validate([

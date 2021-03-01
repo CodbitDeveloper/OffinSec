@@ -145,6 +145,14 @@ class PermissionController extends Controller
         //
     }
 
+    /**
+     * ---------------------
+     * Approve permission
+     * ---------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function approval(Request $request)
     {
         $request->validate([
@@ -169,6 +177,14 @@ class PermissionController extends Controller
         }
     }
 
+    /**
+     * -------------------------------------------------------
+     * Approving guard permission and adding a reliever guard
+     * -------------------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function reliever(Request $request)
     {
         $request->validate([

@@ -136,6 +136,14 @@ class ReportController extends Controller
         //
     }
 
+    /**
+     * -------------------------------------------
+     * Present a page for send reports to clients
+     * -------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function send(Request $request){
         if($request->client != null){
             $current_client = Client::where('id', $request->client)->first();
@@ -147,6 +155,14 @@ class ReportController extends Controller
         return view('reports')->with('clients', $clients)->with('current_client', $current_client);
     }
 
+    /**
+     * ----------------------------------------
+     * Generate report for a particular client
+     * -----------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function generateReport(Request $request){
         $request->validate([
             'client_id' => 'required',
@@ -209,6 +225,13 @@ class ReportController extends Controller
         }
     }
 
+    /**
+     * --------------------------
+     * Download files for report
+     * --------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function download(Request $request)
     {
         $report = Report::where('fileName', $request->file)->first();
@@ -219,6 +242,14 @@ class ReportController extends Controller
         }
     }
 
+    /**
+     * -------------------------------------------
+     * Send generated reports to client via email
+     * -------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function sendMail(Request $request){
         $request->validate([
             'client_id' => 'required',
@@ -257,6 +288,14 @@ class ReportController extends Controller
         }
     }
     
+    /**
+     * ------------------------------------------
+     * Get the download code for specific files
+     * ------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getDownloadLink(Request $request){
         $request->validate([
             "file" => "required"

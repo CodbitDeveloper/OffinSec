@@ -191,6 +191,13 @@ class AttendanceController extends Controller
         //
     }
 
+    /**
+     * ---------------------------
+     * Display all attendance
+     * ---------------------------
+     * 
+     * @return view
+     */
     public function view()
     {
         $guards = Guard::all();
@@ -199,6 +206,14 @@ class AttendanceController extends Controller
         return view('attendance')->with('guards', json_encode($guards))->with('sites', $sites);
     }
 
+    /**
+     * ----------------------------------
+     * Get attendance by date for a site
+     * ----------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function getAttendanceByDate(Request $request){
         $request->validate([
             'date' => 'required',
@@ -215,6 +230,14 @@ class AttendanceController extends Controller
         ]);
     }
 
+    /**
+     * --------------------------------------
+     * Display attendance details for a site
+     * --------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function details(Request $request){
         $request->validate([
             'date' => 'required',

@@ -156,6 +156,14 @@ class SiteController extends Controller
         //
     }
 
+    /**
+     * ----------------------------------------------
+     * Fetch guards fingerprint for the mobile app
+     * -----------------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function setupApp(Request $request){
         $request->validate([
             'site' => 'required'
@@ -209,6 +217,14 @@ class SiteController extends Controller
         ]);
     } */
 
+    /**
+     * ----------------------------------------
+     * Present a page for viewing site details
+     * ----------------------------------------
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return view
+     */
     public function viewSite(Request $request)
     {
         $site = Site::where('id', $request->id)->with('client', 'supervisor', 'contacts')->with('duty_roster')->with(['duty_roster.guards' => function($q){
