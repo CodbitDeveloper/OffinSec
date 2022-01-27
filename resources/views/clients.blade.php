@@ -112,7 +112,7 @@
                             $date = Carbon\Carbon::parse($client->start_date);
                             $complete = Carbon\Carbon::parse($client->end_date);
                             $isPast = $date->isPast();
-                            if($isPast && $complete->diffInDays($data) > 0){
+                            if($isPast && $complete->diffInDays($date) > 0){
                                 $percentage = ($date->diffInDays(Carbon\Carbon::now())/$complete->diffInDays($date))*100;
                             }else{
                                 $percentage = 0;
