@@ -238,4 +238,12 @@ class SiteController extends Controller
             'site' => $site
         ]); */
     }
+
+
+    public function managePatrols(Site $site)
+    {
+        $patrols = $site->patrols;
+        $scannableAreas = $site->scannable_areas;
+        return view('manage-patrols', compact('site', 'patrols', 'scannableAreas'));
+    }
 }

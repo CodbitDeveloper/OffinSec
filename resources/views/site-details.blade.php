@@ -53,6 +53,11 @@
                                         Add Emergency Contact
                                     </p>
                                 </a>
+                                <a href="{{route('site.manage-patrol', $site)}}">
+                                    <p class="badge badge-pill">
+                                        Manage Patrols
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     </div>

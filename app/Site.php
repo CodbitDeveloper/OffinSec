@@ -51,4 +51,14 @@ class Site extends Model
     {
         return $this->hasMany('App\Contact');
     }
+
+    public function scannable_areas()
+    {
+        return $this->hasMany(ScannableArea::class);
+    }
+
+    public function patrols()
+    {
+        return $this->hasMany(Patrol::class);
+    }
 }

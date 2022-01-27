@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/clients', 'ClientController@index')->name('clients');
     Route::get('/client/{id}', 'ClientController@view')->name('client');
     Route::get('/client/manage-salaries/{id}', 'ClientController@manageSalaries')->name('client.manage-salaries');
+    Route::get('/client/manage-patrols/{id}', 'ClientController@managePatrols')->name('client.manage-patrols');
     Route::get('/shift-types', 'ShiftTypeController@index')->name('shift-types');
     
     Route::get('/attendance', 'AttendanceController@view')->name('view.attendance');
@@ -46,8 +47,11 @@ Route::middleware('auth')->group(function(){
     Route::get('/biometrics', 'GuardController@uploadBios')->name('guard.bios');
     Route::get('/add-guarantors', 'GuardController@addGuarantors')->name('guard.add-guarantors');
     Route::get('/site/{id}', 'SiteController@viewSite')->name('site.view');
+    Route::get('/site/{site}/manage-patrols', 'SiteController@managePatrols')->name("site.manage-patrol");
     Route::get('/salaries', 'SalaryController@all')->name('salaries.all');
     Route::get('/incidents', 'IncidentController@index');
     Route::get('/occurrences', 'OccurrenceController@index');
     Route::delete('/fingerprint/delete/{fingerprint}', 'FingerprintController@destroy');
+
+    Route::get("/patrol/{patrol}", "PatrolController@show");
 });

@@ -90,3 +90,12 @@ Route::delete('/shift-type/delete/{shiftType}', 'ShiftTypeController@destroy');
 Route::post("/fingerprint/save", "FingerprintController@store");
 Route::post("/image/save", "FingerprintController@saveImage");
 Route::get("/contacts/get", "ContactController@getSiteContacts");
+
+Route::post("/scannable-area/add", "ScannableAreaController@store");
+
+Route::group(["prefix" => "v1"], function(){
+    Route::post("authenticate", "Api\AuthController@authenticate");
+    Route::group(["middleware" => "patrol"], function(){
+        Route::post("patrols", "Api\PatrolController@store");
+    });
+});
