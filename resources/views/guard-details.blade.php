@@ -181,8 +181,6 @@
                                     id="gender" name="gender">
                                     <option <?php if($guard->gender == 'Male'){echo 'selected';} ?>>Male</option>
                                     <option <?php if($guard->gender == 'Female'){echo 'selected';} ?>>Female</option>
-                                    <option <?php if($guard->gender == 'Transgender'){echo 'selected';} ?>>Transgender</option>
-                                    <option <?php if($guard->gender == 'Rather not say'){echo 'selected';} ?>>Rather not say</option>
                                 </select>
                             </div>
                         </div>
@@ -229,11 +227,15 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label for="bank_name" class="col-form-label"><b>ID</b> Number</label>
+                                <input type="text" class="form-control required" id="national_id" name="national_id" value="{{$guard->national_id}}">
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="bank_name" class="col-form-label"><b>SSNIT</b> Number</label>
                                 <input type="text" class="form-control required" id="SSNIT" name="SSNIT" value="{{$guard->SSNIT}}">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label>Emergency Contact</label>
                                 <input type="tel" name="emergency_contact"  placeholder="" data-mask="(999) 999-999999" class="form-control" value="{{$guard->emergency_contact}}"/>
                                 <span class="font-10 text-muted">(233) 244-500500</span>

@@ -13,8 +13,11 @@ class PatrolController extends Controller
     public function store(StorePatrolRequest $request)
     {
         $patrol = Patrol::create($request->all());
-        $patrol->scans()->attach($request->scans);
 
+        if($request->has("scans")){
+            $patrol->scans()->attach($request->scans);
+        }
+        
         if($request->has("images") && count($request->images) > 0){
             $arrayToAttach = array();
 

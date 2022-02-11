@@ -95,7 +95,14 @@ Route::post("/scannable-area/add", "ScannableAreaController@store");
 
 Route::group(["prefix" => "v1"], function(){
     Route::post("authenticate", "Api\AuthController@authenticate");
+    Route::post("login", "Api\AuthController@login");
+    Route::post("logout", "Api\AuthController@logout");
     Route::group(["middleware" => "patrol"], function(){
         Route::post("patrols", "Api\PatrolController@store");
+        Route::get("/site/{site}/patrols", "Api\SiteController@patrols");
+    });
+
+    Route::group(["middleware" => "jwt.verify"], function(){
+        Route::get("user", "Api\AuthController@user");
     });
 });

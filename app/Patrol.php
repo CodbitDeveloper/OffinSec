@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Patrol extends Model
 {
     //
-    protected $fillable = ["site_id", "patrol_officer", "notes"];
+    protected $fillable = ["site_id", "patrol_officer", "notes", "user_id"];
 
     public function scans()
     {
@@ -22,5 +22,10 @@ class Patrol extends Model
     public function images()
     {
         return $this->hasMany(PatrolImage::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

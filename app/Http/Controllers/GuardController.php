@@ -248,7 +248,8 @@ class GuardController extends Controller
             'emergency_contact' => 'required|string',
             'bank_name' => 'required|string',
             'bank_branch' => 'required|string',
-            'account_number' => 'required|string'
+            'account_number' => 'required|string',
+            'national_id' => 'required|string',
         ]);
         
         $guard = Guard::where('id', $request->id)->first();
@@ -265,6 +266,7 @@ class GuardController extends Controller
         $guard->bank_name = $request->bank_name;
         $guard->bank_branch = $request->bank_branch;
         $guard->account_number = $request->account_number;
+        $guard->national_id = $request->national_id;
 
         if($guard->update()){
             return response()->json([

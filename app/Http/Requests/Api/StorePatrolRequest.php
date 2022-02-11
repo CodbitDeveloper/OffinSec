@@ -28,8 +28,9 @@ class StorePatrolRequest extends FormRequest
             "site_id" => "numeric|required",
             "patrol_officer" => "string|required",
             "notes" => "string|required",
-            "scans" => "array|required",
-            "images" => "nullable|array"
+            "scans" => "array|nullable",
+            "images" => "nullable|array",
+            "user_id" => "nullable|string"
         ];
     }
 }

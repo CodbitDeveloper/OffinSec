@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Site;
 use App\Guard;
-
-use DB;
+use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SiteController extends Controller
 {
@@ -242,8 +242,19 @@ class SiteController extends Controller
 
     public function managePatrols(Site $site)
     {
-        $patrols = $site->patrols;
+        $site->load("patrol_supervisor");
+        $patrols = $site->patrols()->whereNull("user_id")->get();
+        $supervisedPatrols = $site->patrols()->whereNotNull("user_id")->get();
         $scannableAreas = $site->scannable_areas;
-        return view('manage-patrols', compact('site', 'patrols', 'scannableAreas'));
+        $users = User::all();
+        return view('manage-patrols', compact('site', 'patrols', 'scannableAreas', 'users', 'supervisedPatrols'));
+    }
+
+    public function assignUser(Site $site, Request $request)
+    {
+        $site->user_id = $request->user_id;
+        $site->save();
+
+        return redirect(url()->previous())->with("success", "Patrol officer assigned");
     }
 }

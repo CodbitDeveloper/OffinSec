@@ -39,33 +39,77 @@
                     @endif
                     <button class="btn btn-custom" data-toggle="modal" data-target="#createScannableAreaModal">Add
                         New</button>
+                        <button class="btn btn-custom" data-toggle="modal" data-target="#assignPatrolOfficer">Assign Patrol Officer</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-8 col-sm-12">
             <div class="card-box">
-                <table class="table table-striped table-responsive">
-                    <thead>
-                        <th>Patrol ID</th>
-                        <th>Patrol Officer</th>
-                        <th>Notes</th>
-                        <th>Created At</th>
-                        <th>Images</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        @foreach ($patrols as $patrol)
-                            <tr>
-                                <th>{{ $patrol->id }}</th>
-                                <th>{{ $patrol->patrol_officer }}</th>
-                                <th>{{ $patrol->notes }}</th>
-                                <th>{{ $patrol->created_at }}</th>
-                                <th>@if($patrol->images->count() > 0) <a href="{{$patrol->images[0]->url}}" target="_blank">View</a> @else N/A @endif</th>
-                                <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <p>Patrol Officer : {{$site->patrol_supervisor ? $site->patrol_supervisor->firstname." ".$site->patrol_supervisor->lastname : "N/A"}}</p>
+                <div class="card-header tab-card-header">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                      <li class="nav-item">
+                          <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">Site Supervisors</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Patrol Officers</a>
+                      </li>
+                    </ul>
+                  </div>
+          
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                                <th>Patrol ID</th>
+                                <th>Patrol Officer</th>
+                                <th>Notes</th>
+                                <th>Created At</th>
+                                <th>Images</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($patrols as $patrol)
+                                    <tr>
+                                        <th>{{ $patrol->id }}</th>
+                                        <th>{{ $patrol->patrol_officer }}</th>
+                                        <th>{{ $patrol->notes }}</th>
+                                        <th>{{ $patrol->created_at }}</th>
+                                        <th>@if($patrol->images->count() > 0) <a href="{{$patrol->images[0]->url}}" target="_blank">View</a> @else N/A @endif</th>
+                                        <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>          
+                    </div>
+                    <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                                <th>Patrol ID</th>
+                                <th>Patrol Officer</th>
+                                <th>Notes</th>
+                                <th>Created At</th>
+                                <th>Images</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($supervisedPatrols as $patrol)
+                                    <tr>
+                                        <th>{{ $patrol->id }}</th>
+                                        <th>{{ $patrol->patrol_officer }}</th>
+                                        <th>{{ $patrol->notes }}</th>
+                                        <th>{{ $patrol->created_at }}</th>
+                                        <th>@if($patrol->images->count() > 0) <a href="{{$patrol->images[0]->url}}" target="_blank">View</a> @else N/A @endif</th>
+                                        <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>             
+                    </div>
+          
+                  </div>
+                
+                
             </div>
         </div>
     </div>
@@ -96,6 +140,38 @@
                                 <label for="contact_number" class="col-form-label"><b>Longitude</b></label>
                                 <input class="form-control resetable" type="text" id="longitude" placeholder=""
                                     name="longitude">
+                            </div>
+                        </div>
+                        <div class="text-right mt-2">
+                            <button type="submit" class="btn btn-icon ml-1 waves-effect waves-light btn-custom">Add</button>
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="assignPatrolOfficer" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Patrol Officer</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="assign_supervisor" method="POST" action="/sites/{{$site->id}}/user">
+                        @csrf
+                        <div class="form-row mb-2">
+                            <div class="col-md-12 col-sm-12">
+                                <label for="contact_number" class="col-form-label"><b>Name</b></label>
+                                <select class="custom-select" id="user_id" placeholder="eg (Main Entrance)"
+                                    name="user_id" required>
+                                    <option selected hidden disabled>Select a user</option>
+                                    @foreach($users as $user)
+                                    <option value="{{$user->id}}">{{$user->firstname." ".$user->lastname}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="text-right mt-2">

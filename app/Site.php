@@ -61,4 +61,9 @@ class Site extends Model
     {
         return $this->hasMany(Patrol::class);
     }
+
+    public function patrol_supervisor()
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
 }

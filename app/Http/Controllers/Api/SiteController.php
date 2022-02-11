@@ -15,4 +15,12 @@ class SiteController extends Controller
             "data" => $site->scannable_areas
         ]);
     }
+
+    public function patrols(Site $site)
+    {
+        $patrols = $site->patrols()->with("images", "scans")->get();
+        return response()->json([
+            "data" => $patrols
+        ]);
+    }
 }
