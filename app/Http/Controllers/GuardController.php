@@ -26,7 +26,7 @@ class GuardController extends Controller
     {
         if ($request->q != null) {
             $term = $request->q;
-            $guards = Guard::where('firstname', 'LIKE', $term)->orWhere('lastname', 'LIKE', $term)->orWhere(DB::raw("CONCAT(firstname,' ', lastname)"), "LIKE", $term)->with('duty_rosters', 'duty_rosters.site')->paginate(15);
+            $guards = Guard::where('firstname', 'LIKE', '%'.$term.'%')->orWhere('lastname', 'LIKE', '%'.$term.'%')->orWhere(DB::raw("CONCAT(firstname,' ', lastname)"), "LIKE", '%'.$term.'%')->orWhere("guard_number", "like", '%'.$term.'%')->with('duty_rosters', 'duty_rosters.site')->paginate(15);
             $searching = true;
         } else {
             $guards = Guard::with('duty_rosters', 'duty_rosters.site')->paginate(15);

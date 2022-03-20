@@ -47,7 +47,7 @@
                                      @else 
                                      {{$guard->duty_rosters[0]->site->name}} 
                                     @endif 
-                                    <span> | </span> <span> <span class="text-pink">{{$guard->phone_number}}</span>
+                                    <span> | </span> <span> <span class="text-pink">{{$guard->guard_number}}</span>
                                     </span></p>
                             </div>
                             <a href="/guard/{{$guard->id}}" class="btn btn-primary m-t-20 btn-rounded btn-bordered waves-effect w-md waves-light">
