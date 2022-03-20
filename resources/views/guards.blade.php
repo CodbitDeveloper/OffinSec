@@ -36,7 +36,7 @@
 
                         <div class="member-card pt-2 pb-2">
                             <div class="thumb-lg member-thumb m-b-10 mx-auto">
-                                <img src="{{asset('assets/images/guards/'.$guard->photo)}}" onerror="this.src='{{asset('assets/images/avatar.jpg')}}'" class="rounded-circle img-thumbnail" alt="profile-image" style="width:78px; height:78px; object-fit: cover;">
+                                <img src="{{asset('storage/assets/images/guards/'.$guard->photo)}}" onerror="this.src='{{asset('assets/images/avatar.jpg')}}'" class="rounded-circle img-thumbnail" alt="profile-image" style="width:78px; height:78px; object-fit: cover;">
                             </div>
 
                             <div class="">

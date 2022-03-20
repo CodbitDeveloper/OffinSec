@@ -64,7 +64,7 @@
                                     @foreach($best_guards as $guy)
                                     <tr>
                                         <td>
-                                            <img src="{{asset('assets/images/guards/'.$guy->photo)}}" alt="" title="contact-img"
+                                            <img src="{{asset('storage/assets/images/guards/'.$guy->photo)}}" alt="" title="contact-img"
                                                 class="rounded-circle thumb-sm" />
                                         </td>
 

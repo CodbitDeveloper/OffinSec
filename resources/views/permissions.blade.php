@@ -73,7 +73,7 @@
                         <td>
                             @if($permission->owner_guard != null)
                             <a href="javascript: void(0);">
-                                <img src="{{$permission->owner_guard->photo == '' || $permission->owner_guard->photo == null ? asset('assets/images/avatar.jpg') : asset('assets/images/guards/'.$permission->owner_guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
+                                <img src="{{$permission->owner_guard->photo == '' || $permission->owner_guard->photo == null ? asset('assets/images/avatar.jpg') : asset('storage/assets/images/guards/'.$permission->owner_guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
                                 <span class="ml-2">{{ucwords($permission->owner_guard->firstname.' '.$permission->owner_guard->lastname)}}</span>
                             </a>
                             @else
@@ -89,7 +89,7 @@
                         <td id="reliever-cell">
                             @if($permission->relieving_guard != null)
                             <a href="javascript: void(0);">
-                            <img src="{{$permission->relieving_guard->photo == '' || $permission->relieving_guard->photo == null ? asset('assets/images/avatar.jpg') : asset('assets/images/guards/'.$permission->relieving_guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
+                            <img src="{{$permission->relieving_guard->photo == '' || $permission->relieving_guard->photo == null ? asset('assets/images/avatar.jpg') : asset('storage/assets/images/guards/'.$permission->relieving_guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
                                 <span class="ml-2">{{ucwords($permission->relieving_guard->firstname.' '.$permission->relieving_guard->lastname)}}</span>
                             </a>
                             @else
@@ -245,7 +245,7 @@
                         reliever_cell = el.closest('tr').find('#reliever-cell');
 
                         table.cell(status_badge).data('<span class="badge badge-success">Accepted</span>').draw();
-                        table.cell(reliever_cell).data('<a href="javascript: void(0);"><img src="/assets/images/guards/'+data.guard.photo +'" onerror="this.src=\'assets/images/avatar.jpg\'" class="rounded-circle thumb-sm" alt="friend"/><span class="ml-2">'+data.guard.firstname+' '+data.guard.lastname+'</span></a>').draw();
+                        table.cell(reliever_cell).data('<a href="javascript: void(0);"><img src="/storage/assets/images/guards/'+data.guard.photo +'" onerror="this.src=\'assets/images/avatar.jpg\'" class="rounded-circle thumb-sm" alt="friend"/><span class="ml-2">'+data.guard.firstname+' '+data.guard.lastname+'</span></a>').draw();
                     }
             },
             error: function(err){

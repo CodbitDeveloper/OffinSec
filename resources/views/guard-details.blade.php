@@ -31,10 +31,10 @@
                         <div class="profile-user-box card-box bg-custom">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <span class="float-left mr-3"><img src="{{asset('assets/images/guards/'.$guard->photo)}}"  onerror="this.src='{{asset('assets/images/avatar.jpg')}}'" alt="" class="thumb-lg rounded-circle" onclick="enlarge(this)"></span>
+                                    <span class="float-left mr-3"><img src="{{asset('storage/assets/images/guards/'.$guard->photo)}}"  onerror="this.src='{{asset('assets/images/avatar.jpg')}}'" alt="" class="thumb-lg rounded-circle" onclick="enlarge(this)"></span>
                                     <div class="media-body text-white">
                                         <h4 class="mt-1 mb-1 font-18">{{$guard->firstname.' '.$guard->lastname}}</h4>
-                                        <p class="font-13 text-light"> {{$guard->phone_number}}</p>
+                                        <p class="font-13 text-light"><strong> {{$guard->guard_number}} </strong></p>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -146,7 +146,7 @@
             <div class="card-box">
                 <h4 class="header-title mt-0 mb-3">Edit Guard</h4>
                 <hr/>
-                <form method="post" action = "#" id="edit_guard_form">
+                <form method="post" action = "#" id="edit_guard_form" enctype="multipart/form-data">
                 @csrf
                     <div id="personal_information">
                         <div class="form-row">
@@ -228,6 +228,16 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
+                                <label for="id_type" class="col-form-label"><b>ID </b>Type</label>
+                                <select class="selectpicker show-tick required" data-style="btn-custom" title="ID Type"
+                                    id="type" name="id_type">
+                                    <option {{$guard->id_type == "Voter's ID" ? 'selected' : ''}}>Voter's ID</option>
+                                    <option {{$guard->id_type == "Ghana Card" ? 'selected' : ''}}>Ghana Card</option>
+                                    <option {{$guard->id_type == "NHIS" ? 'selected' : ''}}>NHIS</option>
+                                    <option {{$guard->id_type == "Passport" ? 'selected' : ''}}>Passport</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="bank_name" class="col-form-label"><b>ID</b> Number</label>
                                 <input type="text" class="form-control required" id="national_id" name="national_id" value="{{$guard->national_id}}">
                             </div>
@@ -239,6 +249,10 @@
                                 <label>Emergency Contact</label>
                                 <input type="tel" name="emergency_contact"  placeholder="" data-mask="(999) 999-999999" class="form-control" value="{{$guard->emergency_contact}}"/>
                                 <span class="font-10 text-muted">(233) 244-500500</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Photo</label>
+                                <input type="file" class="form-control" name="photo" id="photo">
                             </div>
                         </div>
                     </div>
@@ -335,8 +349,6 @@
                                 <select class="selectpicker show-tick" data-style="btn-custom" title="Gender" id="guarantor_gender" name="gender" required>
                                     <option>Male</option>
                                     <option>Female</option>
-                                    <option>Transgender</option>
-                                    <option>Rather not say</option>
                                 </select>
                             </div>
                         </div>
@@ -391,6 +403,10 @@
 <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
 <script>
     $('#edit_guard_form').find('input').on('keyup', function(){
+        $('#edit_guard_form').find('[type="submit"]').prop('disabled', false);
+    });
+
+    $('#edit_guard_form').find('input').on('change', function(){
         $('#edit_guard_form').find('[type="submit"]').prop('disabled', false);
     });
 
@@ -514,20 +530,23 @@
 
 
 
-    $('#edit_guard_form').on('submit', function(e){
+    $('#edit_guard_form').submit(function(e){
         e.preventDefault();
         var btn = $(this).find('[type="submit"]');
 
-        data = $(this).serialize();
-
+        var formData = new FormData(this);
+        formData.append("_method", "PUT");
         var error = false;
 
         applyLoading(btn);
 
         $.ajax({
             url: '/api/guard/update',
-            method: 'PUT',
-            data: data,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
             success: function(data){
                 removeLoading(btn, 'Save');
                     if(data.error){

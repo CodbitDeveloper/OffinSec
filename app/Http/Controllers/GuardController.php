@@ -24,11 +24,11 @@ class GuardController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->q != null){
+        if ($request->q != null) {
             $term = $request->q;
             $guards = Guard::where('firstname', 'LIKE', $term)->orWhere('lastname', 'LIKE', $term)->orWhere(DB::raw("CONCAT(firstname,' ', lastname)"), "LIKE", $term)->with('duty_rosters', 'duty_rosters.site')->paginate(15);
             $searching = true;
-        }else{
+        } else {
             $guards = Guard::with('duty_rosters', 'duty_rosters.site')->paginate(15);
             $searching = false;
         }
@@ -69,7 +69,7 @@ class GuardController extends Controller
         return view('guard-add')->with('roles', $roles);
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -96,15 +96,15 @@ class GuardController extends Controller
             'bank_branch' => 'required|string',
             'account_number' => 'required|string'
         ]);
-        
-        if(Guard::where('national_id', $request->national_id)->get()->count() > 0){
+
+        if (Guard::where('national_id', $request->national_id)->get()->count() > 0) {
             return response()->json([
                 'error' => $result,
                 'message' => 'National ID number already exists'
             ]);
         }
 
-        if(Guard::where('SSNIT', $request->SSNIT)->get()->count() > 0){
+        if (Guard::where('SSNIT', $request->SSNIT)->get()->count() > 0) {
             return response()->json([
                 'error' => $result,
                 'message' => 'SSNIT number already exists'
@@ -112,8 +112,8 @@ class GuardController extends Controller
         }
 
         $guard = new Guard();
-        
-        $guard_id = md5(microtime().$request->firstname);
+
+        $guard_id = md5(microtime() . $request->firstname);
         $guard_id = substr($guard_id, 0, 18);
         $guard->id = $guard_id;
         $guard->firstname = $request->firstname;
@@ -131,74 +131,78 @@ class GuardController extends Controller
         $guard->bank_name = $request->bank_name;
         $guard->bank_branch = $request->bank_branch;
         $guard->account_number = $request->account_number;
-        
-        if($request->welfare == 'on'){
+
+        if ($request->welfare == 'on') {
             $request->welfare = 1;
-        }else if($request->welfare == 'off' || $request->welfare == null){
+        } else if ($request->welfare == 'off' || $request->welfare == null) {
             $request->welfare = 0;
         }
 
         $guard->welfare = $request->welfare;
 
-        if($request->image != null){
-            $fileName        = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
+        if ($request->image != null) {
+            $fileName        = Utils::saveBase64Image($request->image, microtime() . '-' . $guard->firstname, 'storage/assets/images/guards/');
             $guard->photo = $fileName;
-         }else{
-            return response()->json(["error" => true,"message" => 'no-image']);
-         }
+        } else {
+            return response()->json(["error" => true, "message" => 'no-image']);
+        }
 
-         if($guard->save()){
-             $fingerprint = new Fingerprint();
+        if ($guard->save()) {
+            if (isset($request->RTB64)) {
+                $fingerprint = new Fingerprint();
 
-             $fingerprint->guard_id = $guard->id;
-             $fingerprint->RTB64 = $request->RTB64;
-             $fingerprint->LTB64 = $request->RTB64;
-             $fingerprint->RTISO = $request->RTB64;
-             $fingerprint->LTISO = $request->RTB64;
+                $fingerprint->guard_id = $guard->id;
+                $fingerprint->RTB64 = $request->RTB64;
+                $fingerprint->LTB64 = $request->RTB64;
+                $fingerprint->RTISO = $request->RTB64;
+                $fingerprint->LTISO = $request->RTB64;
 
-             if($fingerprint->save()){
-                 $temp_guarantors = array();
+                if ($fingerprint->save()) {
+                } else {
+                    return response()->json([
+                        'error' => true,
+                        'message' => 'Could not save fingerprint data'
+                    ]);
+                }
+            }
 
-                 $temp_guarantors = json_decode($request->guarantors);
-                 
-                 foreach($temp_guarantors as $temp){
-                    $guarantor = new Guarantor();
 
-                    $guarantor->guard_id = $guard->id;
-                    $guarantor->firstname = $temp->firstname;
-                    $guarantor->lastname = $temp->lastname;
-                    $guarantor->dob = date('Y-m-d', strtotime($temp->dob));
-                    $guarantor->gender = $temp->gender;
-                    $guarantor->occupation = $temp->occupation;
-                    $guarantor->address = $temp->address;
-                    $guarantor->phone_number = $temp->phone_number;
-                    $guarantor->national_id = $temp->national_id;
+            $temp_guarantors = array();
 
-                    if(!$guarantor->save()){
-                        return response()->json([
-                            'error' => true,
-                            'message' => 'Error trying to save a guarantor'
-                        ]);
-                    }
-                 }
-             }else{
-                 return response()->json([
-                    'error' => true,
-                    'message' => 'Could not save fingerprint data'
-                 ]);
-             }
+            $temp_guarantors = json_decode($request->guarantors);
 
-             return response()->json([
+            foreach ($temp_guarantors as $temp) {
+                $guarantor = new Guarantor();
+
+                $guarantor->guard_id = $guard->id;
+                $guarantor->firstname = $temp->firstname;
+                $guarantor->lastname = $temp->lastname;
+                $guarantor->dob = date('Y-m-d', strtotime($temp->dob));
+                $guarantor->gender = $temp->gender;
+                $guarantor->occupation = $temp->occupation;
+                $guarantor->address = $temp->address;
+                $guarantor->phone_number = $temp->phone_number;
+                $guarantor->national_id = $temp->national_id;
+
+                if (!$guarantor->save()) {
+                    return response()->json([
+                        'error' => true,
+                        'message' => 'Error trying to save a guarantor'
+                    ]);
+                }
+            }
+
+            return response()->json([
                 'error' => false,
                 'data' => $guard,
                 'message' => 'Guard created successfully'
-              ]);
-         }
+            ]);
+        }
 
-         return response()->json([
+        return response()->json([
             'error' => true,
             'message' => 'Error creating guard'
-          ]);
+        ]);
     }
 
     /**
@@ -220,8 +224,6 @@ class GuardController extends Controller
      */
     public function edit(Guard $guard)
     {
-        $guard = Guard::where('id', $request->id)->first();
-
         return view('edit-guard', \compact('guard'));
     }
 
@@ -250,8 +252,10 @@ class GuardController extends Controller
             'bank_branch' => 'required|string',
             'account_number' => 'required|string',
             'national_id' => 'required|string',
+            'id_type' => 'required|string',
+            'photo' => 'file|nullable',
         ]);
-        
+
         $guard = Guard::where('id', $request->id)->first();
         $guard->firstname = $request->firstname;
         $guard->lastname = $request->lastname;
@@ -266,15 +270,22 @@ class GuardController extends Controller
         $guard->bank_name = $request->bank_name;
         $guard->bank_branch = $request->bank_branch;
         $guard->account_number = $request->account_number;
+        $guard->id_type = $request->id_type;
         $guard->national_id = $request->national_id;
 
-        if($guard->update()){
+        if($request->hasFile("photo")){
+            $request->file('photo')->store('public/assets/images/guards');
+            $file_name = $request->file('photo')->hashName();
+            $guard->photo = $file_name;
+        }
+
+        if ($guard->update()) {
             return response()->json([
                 'error'  => false,
                 'data' => $guard,
                 'message' => 'Guard updated successfully'
             ]);
-        }else{
+        } else {
             return response()->json([
                 'error'  => true,
                 'message' => 'Error updating guard'
@@ -290,23 +301,22 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function welfare (Request $request)
+    public function welfare(Request $request)
     {
         $guard = Guard::where('id', $request->id)->first();
 
         $welfare        = $request->welfare;
         $guard->welfare = $welfare;
 
-        if ($guard->save())
-        {
+        if ($guard->save()) {
             return response()->json([
-            'data'    => $guard,
-            'message' => 'Guard is a member of the welfare'
+                'data'    => $guard,
+                'message' => 'Guard is a member of the welfare'
             ]);
-        }else{
+        } else {
             return response()->json([
-            'message' => 'Nothing to update',
-            'error'   => true
+                'message' => 'Nothing to update',
+                'error'   => true
             ]);
         }
     }
@@ -335,7 +345,8 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return view
      */
-    public function view(Request $request){
+    public function view(Request $request)
+    {
         $guard = Guard::withTrashed()->with('duty_rosters', 'duty_rosters.site', 'duty_rosters.site.client', 'guarantors', 'role')->where('id', $request->id)->first();
         $roles = Role::all();
         //$guard = DB::select("SELECT sites.name, guards.* FROM guard_roster, duty_rosters, guards, sites WHERE guard_roster.guard_id = guards.id AND guard_roster.duty_roster_id = duty_rosters.id AND sites.id = duty_rosters.site_id AND guards.id = '$request->id' group by guards.id, sites.name ");
@@ -367,7 +378,8 @@ class GuardController extends Controller
      * 
      * @return view
      */
-    public function reports(){
+    public function reports()
+    {
         $clients = Client::with('sites')->get();
         return view('guard-report', compact('clients'));
     }
@@ -379,7 +391,8 @@ class GuardController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getGuardsByGender(){
+    public function getGuardsByGender()
+    {
         $guards = DB::select("SELECT count(id) as total, gender from guards group by gender");
         return response()->json([
             'error' => false,
@@ -394,7 +407,8 @@ class GuardController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getGuardsByAgeRange(){
+    public function getGuardsByAgeRange()
+    {
         $guards = DB::select("SELECT SUM(IF(age < 20,1,0)) as 'Under 20', SUM(IF(age BETWEEN 20 and 29,1,0)) as '20 - 29',
         SUM(IF(age BETWEEN 30 and 39,1,0)) as '30 - 39', SUM(IF(age BETWEEN 40 and 49,1,0)) as '40 - 49', SUM(IF(age BETWEEN 50 and 149,1,0)) as 'Over 50'
         FROM (SELECT TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age FROM guards) as derived");
@@ -412,13 +426,14 @@ class GuardController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function getGuardsBySite(){
+    public function getGuardsBySite()
+    {
         $sites = Site::with('duty_roster', 'duty_roster.guards')->get();
-        
-        foreach($sites as $site){
-            if($site->duty_roster == null){
+
+        foreach ($sites as $site) {
+            if ($site->duty_roster == null) {
                 $site->guard_count = 0;
-            }else{
+            } else {
                 $site->guard_count = $site->duty_roster->guards->count();
             }
         }
@@ -437,21 +452,22 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getSiteReport(Request $request){
+    public function getSiteReport(Request $request)
+    {
         $request->validate([
             'site_id' => 'required',
-            'start' => 'required', 
+            'start' => 'required',
             'end' => 'required'
         ]);
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
         $site_id = $request->site_id;
 
-        $site = Site::with(['attendances' => function($q) use ($start, $end){
+        $site = Site::with(['attendances' => function ($q) use ($start, $end) {
             $q->whereRaw("date_time BETWEEN DATE('$start') and DATE('$end')");
-        }])->with(['occurrences' => function($q) use ($start, $end){
+        }])->with(['occurrences' => function ($q) use ($start, $end) {
             $q->whereRaw("created_at BETWEEN DATE('$start') and DATE('$end')");
-        }])->with(['incidents' => function($q) use ($start, $end){
+        }])->with(['incidents' => function ($q) use ($start, $end) {
             $q->whereRaw("created_at BETWEEN DATE('$start') and DATE('$end')");
         }])->with('attendances.guard')->where('id', $site_id)->get();
 
@@ -468,7 +484,8 @@ class GuardController extends Controller
      * 
      * @return view
      */
-    public function uploadExcel(){
+    public function uploadExcel()
+    {
         return view('csv-upload');
     }
 
@@ -480,8 +497,9 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function uploadToDb(Request $request){
-        if($request->file('csvfile') != null){
+    public function uploadToDb(Request $request)
+    {
+        if ($request->file('csvfile') != null) {
             //handle save data from csv
             $file = $request->file('csvfile');
 
@@ -497,18 +515,18 @@ class GuardController extends Controller
 
             // 4.96MB in Bytes
             $maxFileSize = 5097152;
-            
-            if(in_array(strtolower($extension), $valid_extension)){
-                if($fileSize <= $maxFileSize){
+
+            if (in_array(strtolower($extension), $valid_extension)) {
+                if ($fileSize <= $maxFileSize) {
                     $location = "docs";
                     // Upload file
-                    $file->move($location,$filename);
+                    $file->move($location, $filename);
 
                     // get path of csv file
-                    $filepath = public_path($location."/".$filename);
+                    $filepath = public_path($location . "/" . $filename);
 
                     // Reading file
-                    $file = fopen($filepath,"r");
+                    $file = fopen($filepath, "r");
 
                     $data_array = array();
                     $insert_data = array();
@@ -516,17 +534,17 @@ class GuardController extends Controller
 
                     while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
                         $num = count($filedata);
-                        
-                        for ($c=0; $c < $num; $c++) {
-                           $data_array[$i][] = $filedata [$c];
+
+                        for ($c = 0; $c < $num; $c++) {
+                            $data_array[$i][] = $filedata[$c];
                         }
                         $i++;
                     }
                     fclose($file);
 
-                    foreach($data_array as $data){
+                    foreach ($data_array as $data) {
                         array_push($insert_data, array(
-                            "id" => md5(microtime().$data[1]),
+                            "id" => md5(microtime() . $data[1]),
                             "firstname" => $data[0],
                             "lastname" => $data[1],
                             "dob" => date('Y-m-d', strtotime($data[2])),
@@ -552,19 +570,19 @@ class GuardController extends Controller
                         "message" => "Data retrieved",
                         "data" => $insert_data
                     ]);
-                }else{
-                    return responose()->json([
-                        "error" => true, 
+                } else {
+                    return response()->json([
+                        "error" => true,
                         "message" => "The provided file is too large"
                     ]);
                 }
-            }else{
+            } else {
                 return response()->json([
                     "error" => true,
                     "message" => 'Invalid file format received'
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 "error" => true,
                 "message" => 'No file received'
@@ -579,7 +597,8 @@ class GuardController extends Controller
      * 
      * @return view
      */
-    public function uploadBios(){
+    public function uploadBios()
+    {
         $guards = Guard::all();
 
         return view('biometrics')->with('guards', $guards);
@@ -593,21 +612,22 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateBio(Request $request){
+    public function updateBio(Request $request)
+    {
         $request->validate([
-            "guard_id" => "required", 
+            "guard_id" => "required",
             "RTB64" => "required",
         ]);
 
         $guard = Guard::where('id', $request->guard_id)->first();
         $fingerprint = Fingerprint::where('guard_id', $request->guard_id)->first();
 
-        if($request->image != null){
-            $fileName = Utils::saveBase64Image($request->image, microtime().'-'.$guard->firstname, 'assets/images/guards/');
+        if ($request->image != null) {
+            $fileName = Utils::saveBase64Image($request->image, microtime() . '-' . $guard->firstname, 'assets/images/guards/');
             $guard->photo = $fileName;
         }
 
-        if($fingerprint == null){
+        if ($fingerprint == null) {
             $fingerprint = new Fingerprint();
             $fingerprint->guard_id = $guard->id;
         }
@@ -617,7 +637,7 @@ class GuardController extends Controller
         $fingerprint->RTISO = $request->RTB64;
         $fingerprint->LTISO = $request->RTB64;
 
-        if($fingerprint->save() && $guard->save()){
+        if ($fingerprint->save() && $guard->save()) {
             return response()->json([
                 "error" => false,
                 "message" => "Guard updated"
@@ -637,7 +657,8 @@ class GuardController extends Controller
      * 
      * @return view
      */
-    public function addGuarantors(){
+    public function addGuarantors()
+    {
         $guards = Guard::all();
         return view('guarantor-add')->with('guards', $guards);
     }
@@ -650,7 +671,8 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getGuard(Request $request){
+    public function getGuard(Request $request)
+    {
         $request->validate([
             'guard_id' => 'required'
         ]);
@@ -671,11 +693,12 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function removeFromArchive(Request $request){
+    public function removeFromArchive(Request $request)
+    {
         $guard = Guard::onlyTrashed()->where("id", $request->guard)->first();
         $guard->deleted_at = null;
 
-        if($guard->save()){
+        if ($guard->save()) {
             return response()->json([
                 'error' => false,
                 "message" => "Guard successfully removed from archive",
@@ -697,7 +720,8 @@ class GuardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return view
      */
-    public function getArchivedGuards(Request $request){
+    public function getArchivedGuards(Request $request)
+    {
         $guards = Guard::onlyTrashed()->paginate(15);
         $searching = false;
 

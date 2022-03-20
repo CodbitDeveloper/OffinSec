@@ -297,7 +297,7 @@
                 data: 'guard_id='+guard,
                 success: function(data){
                     $('.loader').css('display', 'none');
-                    $('#preview').html('<img src="/assets/images/guards/' + data.guard.photo + '" onerror="this.src = \'/assets/images/attachment.jpg\'" id="guard_image" style="width:320px; height:240px;"/>');
+                    $('#preview').html('<img src="/storage/assets/images/guards/' + data.guard.photo + '" onerror="this.src = \'/assets/images/attachment.jpg\'" id="guard_image" style="width:320px; height:240px;"/>');
                 },
                 error: function(error){
                     $('.loader').css('display', 'none');

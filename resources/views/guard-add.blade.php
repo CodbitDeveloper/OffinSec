@@ -390,6 +390,7 @@
                                     }
                                 });
 
+                                /*
                                 if(guardFingerprint == null || guardFingerprint == ''){
                                     error = true;
                                     $('#imageDiv').append('<span class="text-danger text-small">No fingerprint has been recorded</span>');
@@ -398,7 +399,7 @@
                                 if($('#preview').html() == '' || $('#preview').html() == null){
                                     error = true;
                                     $('#preview').append('<span class="text-danger text-small">Take an image</span>');
-                                }
+                                }*/
 
                                 break;
                             

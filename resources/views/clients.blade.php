@@ -92,7 +92,7 @@
                                     @break;
                                 @endif
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{$guard->firstname.' '.$guard->lastname}}">
-                                    <img src="{{$guard->photo == '' || $guard->photo == null ? asset('assets/images/avatar.jpg') : asset('assets/images/guards/'.$guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
+                                    <img src="{{$guard->photo == '' || $guard->photo == null ? asset('assets/images/avatar.jpg') : asset('storage/assets/images/guards/'.$guard->photo)}}" onerror="this.src={{asset('assets/images/avatar.jpg')}}" class="rounded-circle thumb-sm" alt="friend" />
                                 </a> 
 
                                 <?php $count++; ?>    
