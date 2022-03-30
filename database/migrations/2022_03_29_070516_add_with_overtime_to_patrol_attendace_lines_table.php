@@ -13,7 +13,7 @@ class AddWithOvertimeToPatrolAttendaceLinesTable extends Migration
      */
     public function up()
     {
-        Schema::table('patrol_attendace_lines', function (Blueprint $table) {
+        Schema::table('patrol_attendance_lines', function (Blueprint $table) {
             //
             $table->boolean("with_overtime");
         });
