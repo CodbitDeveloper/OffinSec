@@ -92,11 +92,15 @@ Route::post("/image/save", "FingerprintController@saveImage");
 Route::get("/contacts/get", "ContactController@getSiteContacts");
 
 Route::post("/scannable-area/add", "ScannableAreaController@store");
+Route::post("/zones", "ZoneController@store");
+Route::put("/zones/{zone}", "ZoneController@update");
+Route::delete("/zones/{zone}", "ZoneController@delete");
 
 Route::group(["prefix" => "v1"], function(){
     Route::post("authenticate", "Api\AuthController@authenticate");
     Route::post("login", "Api\AuthController@login");
     Route::post("logout", "Api\AuthController@logout");
+    Route::get("/sites/{site}/guards", "Api\SiteController@guards");
     Route::group(["middleware" => "patrol"], function(){
         Route::post("patrols", "Api\PatrolController@store");
         Route::get("/site/{site}/patrols", "Api\SiteController@patrols");

@@ -78,6 +78,8 @@
                                 <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">{{$site->location}}</span></p>
 
                                 <p class="text-muted font-13"><strong>Supervisor :</strong> <span class="m-l-15">{{$site->supervisor != null ? $site->supervisor->firstname.' '.$site->supervisor->lastname : 'N/A'}}</span></p>
+
+                                <p class="text-muted font-13"><strong>Zone :</strong> <span class="m-l-15">{{$site->zone ? $site->zone->name : 'N/A'}}</span></p>
                             </div>
                         </div>
                     </div>
@@ -178,6 +180,15 @@
                             <label for="email">Contact Number</label>
                             <input type="tel" placeholder="" data-mask="(999) 999-999999" class="form-control resetable" name="phone_number">
                             <input type="hidden" name="id"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="supervisor" class="col-form-label">Zone</label>
+                            <select class="selectpicker show-tick form-control" data-style="btn-primary" 
+                            title="Zone" id="edit-zone" name="zone_id">
+                                @foreach($zones as $zone)
+                                <option value="{{$zone->id}}" {{$zone->id == $site->zone_id ? 'selected' : ''}}>{{$zone->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <label for="supervisor" class="col-form-label">Supervisor</label>

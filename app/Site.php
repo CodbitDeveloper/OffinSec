@@ -10,7 +10,7 @@ class Site extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'client_id', 'guard_id', 'name', 'location', 'phone_number', 'access_code',
+        'client_id', 'guard_id', 'name', 'location', 'phone_number', 'access_code', 'zone_id'
     ];
 
     public function client()
@@ -65,5 +65,15 @@ class Site extends Model
     public function patrol_supervisor()
     {
         return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class);
+    }
+
+    public function patrol_attendances()
+    {
+        return $this->hasMany(PatrolAttendance::class);
     }
 }

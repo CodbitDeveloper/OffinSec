@@ -6,10 +6,11 @@ use App\Attendance;
 use App\Guard;
 use App\Site;
 use App\Duty_Roster;
-
+use App\PatrolAttendance;
 use DB;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -201,8 +202,15 @@ class AttendanceController extends Controller
     public function view()
     {
         $guards = Guard::all();
-        $sites = Site::all();
 
+        if(Auth::user()->role === 'zone-supervisor'){
+            $sites = Site::whereHas("zone", function($q){
+                $q->where("user_id", Auth::user()->id);
+            })->get();
+        }else{
+            $sites = Site::all();
+        }
+    
         return view('attendance')->with('guards', json_encode($guards))->with('sites', $sites);
     }
 
@@ -248,6 +256,8 @@ class AttendanceController extends Controller
         ->where('site_id', $request->site)->whereRaw("DATE(date_time) = DATE('$request->date')")->get();
         
         $attendances = $attendance->groupBy('type');
+
+        $patrolAttendances = PatrolAttendance::with("user")->where("site_id", $request->site)->get();
         
         //return response()->json($attendances);
         return view('attendance-details', compact("attendances"));

@@ -118,7 +118,7 @@
                         <li>
                             <a href="/home" class="active">Dashboard</a>
                         </li>
-
+                        @if(in_array(Auth::user()->role, ["admin"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Guards</a>
                             <ul class="submenu">
@@ -150,15 +150,20 @@
                                         <li>
                                             <a href="/shift-types">Shift Types</a>
                                         </li>
+                                        <li>
+                                            <a href="/zones">Zones</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-
+                        @endif
+                        @if(in_array(Auth::user()->role, ["admin"]))
                         <li class="">
                             <a href="/clients">Clients</a>
                         </li>
-
+                        @endif
+                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", "operations-manager"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Attendance</a>
                             <ul class="submenu">
@@ -166,22 +171,26 @@
                                 <li><a href="/permissions">Permissions</a></li>
                             </ul>
                         </li>
-
+                        @endif
+                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", "operations-manager"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Offences</a>
                             <ul class="submenu">
                                 <li>
                                     <a href="/offences">Guard Offences</a>
                                 </li>
+                                @if(in_array(Auth::user()->role, ["admin"]))
                                 <li>
                                     <a href="/offence-types">Offence Types</a>
                                 </li>
+                                @endif
                                 <li>
                                     <a href="/view-deductions">View Monthly Offences</a>
                                 </li>
                             </ul>
                         </li>
-
+                        @endif
+                        @if(in_array(Auth::user()->role, ["admin"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Reports</a>
                             <ul class="submenu">
@@ -204,6 +213,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         @if(strtolower(Auth::user()->role) == 'admin')
                         <li>
                             <a href="/users">Users</a>

@@ -559,7 +559,8 @@ class GuardController extends Controller
                             "welfare" => 1,
                             "bank_name" => $data[11],
                             "account_number" => $data[12],
-                            "bank_branch" => "N/A"
+                            "bank_branch" => "N/A",
+                            "guard_number" => "OSO" . rand(100, 999) . rand(100, 999) . rand(10, 99) . strtoupper(substr($data[0], 0, 2)) . strtoupper(substr($data[1] , 0, 2)),
                         ));
                     }
 

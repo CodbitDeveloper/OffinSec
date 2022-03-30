@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Site;
 use App\Guard;
 use App\User;
-
+use App\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -122,6 +122,7 @@ class SiteController extends Controller
             'location' => 'required',
             'phone_number' => 'required', 
             'guard_id' => 'required',
+            'zone_id' => 'nullable',
         ]);
         
         $site = Site::where('id', $request->id)->first();
@@ -130,6 +131,7 @@ class SiteController extends Controller
         $site->location = $request->location;
         $site->phone_number = $request->phone_number;
         $site->guard_id = $request->guard_id;
+        $site->zone_id = $request->zone_id;
 
         if($site->update()){
             return response()->json([
@@ -232,8 +234,9 @@ class SiteController extends Controller
         }])->first();
 
         $guards = Guard::all();
+        $zones = Zone::all();
 
-        return view('site-details')->with('site', $site)->with('guards', $guards);
+        return view('site-details')->with('site', $site)->with('guards', $guards)->with('zones', $zones);
         /* return response()->json([
             'site' => $site
         ]); */
