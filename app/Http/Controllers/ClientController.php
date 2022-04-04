@@ -7,7 +7,7 @@ use App\Guard;
 use App\Site;
 use App\Access_Code;
 use App\Role;
-
+use App\Zone;
 use DB;
 
 use Illuminate\Http\Request;
@@ -225,8 +225,9 @@ class ClientController extends Controller
         $client->guards = collect($assigned_guards)->unique('id');
         
         $guards = Guard::all();
+        $zones = Zone::all();
 
-        return view('client-details')->with('client', $client)->with('guards', $guards);
+        return view('client-details')->with('client', $client)->with('guards', $guards)->with('zones', $zones);
     }
 
     /**

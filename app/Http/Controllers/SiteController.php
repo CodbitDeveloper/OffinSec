@@ -47,6 +47,7 @@ class SiteController extends Controller
             'location' => 'required',
             'phone_number' => 'required',
             'guard_id' => 'required',
+            'zone_id' => 'required'
         ]);
         
         if(Site::where([['name', $request->name], ['client_id', $request->client_id]])->get()->count() > 0){
@@ -67,6 +68,7 @@ class SiteController extends Controller
         $code = md5(microtime().$request->name);
         $code = substr($code, 0, 6);
         $site->access_code = $code;
+        $site->zone_id = $request->zone_id;
         
         if($site->save()){
             return response()->json([

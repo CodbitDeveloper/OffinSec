@@ -231,6 +231,21 @@
                             <input type="hidden" name="client_id" class="required" value="{{$client->id}}"/>
                         </div>
                     </div>
+                    <div class="form-row mb-4">
+                        <div class="form-group col-md-6">
+                            <label for="supervisor" class="col-form-label"><b>&nbsp;</b></label>
+                            <select class="selectpicker show-tick form-control" data-style="btn-primary" 
+                            title="Zone" id="zone" name="zone_id" data-live-search="true">
+                                @foreach($zones as $zone)
+                                <option value="{{$zone->id}}">{{$zone->name}}</option>
+                                @endforeach
+                            </select>
+                            <div id="sup_error">
+
+                            </div>
+                            <input type="hidden" name="client_id" class="required" value="{{$client->id}}"/>
+                        </div>
+                    </div>
                     <div class="form-group account-btn text-center m-t-10">
                         <div class="col-12">
                             <button class="btn w-lg btn-custom waves-effect waves-light" type="submit">Add
