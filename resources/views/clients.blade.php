@@ -23,20 +23,9 @@
                         <div class="project-sort-item">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="phase-select">Phase :</label>
-                                    <select class="form-control ml-2 form-control-sm" id="phase-select">
-                                        <option>All Clients (6)</option>
-                                        <option>Ongoing</option>
-                                        <option>Completed</option>
-                                    </select>
+                                    <input class="form-control" name="q" placeholder=""/>
                                 </div>
-                                <div class="form-group">
-                                    <label for="sort-select">Sort :</label>
-                                    <select class="form-control ml-2 form-control-sm" id="sort-select">
-                                        <option>Date</option>
-                                        <option>Name</option>
-                                    </select>
-                                </div>
+                                <input type="submit" class="btn btn-primary" value="Search" />
                             </form>
                         </div>
                     </div>

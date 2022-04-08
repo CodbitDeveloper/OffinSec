@@ -21,7 +21,13 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with('sites', 'sites.duty_roster.guards')->get();
+        $clients = Client::with('sites', 'sites.duty_roster.guards');
+        
+        if(request()->get("q") !== null){
+            $q = request()->get("q");
+            $clients = $clients->where("name", "like", "%$q%");
+        }
+        $clients = $clients->get();
 
         foreach($clients as $client){
             $assigned_guards = array();
