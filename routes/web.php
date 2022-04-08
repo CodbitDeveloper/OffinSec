@@ -57,4 +57,5 @@ Route::middleware('auth')->group(function(){
     Route::post("/sites/{site}/user", "SiteController@assignUser");
 
     Route::get('/zones', 'ZoneController@index');
+    Route::get('/patrol-attendance/{patrolAttendance}', 'PatrolAttendanceController@show');
 });

@@ -18,21 +18,6 @@
                                  Check In
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#time-out" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                 Check Out
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#random" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                 Random Check
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#patrol" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                 Patrol Attendance
-                            </a>
-                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane show active" id="time-in">
@@ -41,20 +26,22 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Shift</th>
-                                            <th>Date</th>
-                                            <th>Time</th>
-                                            <th>Action</th>
+                                            <th>Present</th>
+                                            <th>Applicable</th>
+                                            <th>With Permission</th>
+                                            <th>Reliever</th>
+                                            <th>With Overtime</th>
                                         </tr>
                                     </thead>
-                                    @isset($attendances[1])
-                                        @foreach($attendances[1] as $attendance)
+                                    @isset($patrolAttendance)
+                                        @foreach($patrolAttendance->lines as $attendance)
                                             <tr>
-                                                <td>{{$attendance->owner_guard->firstname.' '.$attendance->owner_guard->lastname}}</td>
-                                                <td>{{$attendance->shift_type == null ? 'N/A' : $attendance->shift_type->name}}</td>
-                                                <td>{{date('jS F, Y', strtotime($attendance->date_time))}}</td>
-                                                <td>{{date('H:i:s', strtotime($attendance->date_time))}}</td>
-                                                <td><a href="javascript:void(0)" onclick="edit('{{$attendance->id}}', '{{date('m/d/Y', strtotime($attendance->date_time))}}', '{{date('H:i:s', strtotime($attendance->date_time))}}', '{{$attendance->type}}')">Edit</a></td>
+                                                <td>{{$attendance->security_guard->firstname.' '.$attendance->security_guard->lastname}}</td>
+                                                <td>{{$attendance->present ? 'Yes' : 'No'}}</td>
+                                                <td>{{$attendance->applicable ? 'Yes' : 'No'}}</td>
+                                                <td>{{$attendance->with_permission ? 'Yes' : 'No'}}</td>
+                                                <td>{{$attendance->reliever != null ? $attendance->reliever->firstname.' '.$attendance->reliever->lastname : 'N/A'}}</td>
+                                                <td>{{$attendance->with_overtime ? 'Yes' : 'No'}}</td>
                                             </tr>
                                         @endforeach
                                     @endisset
@@ -134,7 +121,7 @@
                                                 <td>{{$attendance->user->firstname . ' ' . $attendance->user->lastname}}</td>
                                                 <td>{{date('jS F, Y', strtotime($attendance->created_at))}}</td>
                                                 <td>{{date('H:i:s', strtotime($attendance->created_at))}}</td>
-                                                <td><a href="/patrol-attendance/{{$attendance->id}}">View</a></td>
+                                                <td><a href="/admin/patrol-attendance/{{$attendance->id}}">View</a></td>
                                             </tr>
                                         @endforeach
                                     @endisset

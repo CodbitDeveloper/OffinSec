@@ -104,6 +104,7 @@ Route::group(["prefix" => "v1"], function(){
     Route::group(["middleware" => "patrol"], function(){
         Route::post("patrols", "Api\PatrolController@store");
         Route::get("/site/{site}/patrols", "Api\SiteController@patrols");
+        Route::post("/patrol-attendance", "Api\PatrolAttendanceController@store");
     });
 
     Route::group(["middleware" => "jwt.verify"], function(){

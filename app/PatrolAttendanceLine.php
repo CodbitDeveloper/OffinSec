@@ -11,7 +11,7 @@ class PatrolAttendanceLine extends Model
 
     
 
-    public function patrol_attendace()
+    public function patrol_attendance()
     {
         return $this->belongsTo(PatrolAttendance::class);
     }
@@ -19,7 +19,7 @@ class PatrolAttendanceLine extends Model
 
     public function security_guard()
     {
-        return $this->belongsTo(Guard::class);
+        return $this->belongsTo(Guard::class, "guard_id");
     }
 
     public function reliever()

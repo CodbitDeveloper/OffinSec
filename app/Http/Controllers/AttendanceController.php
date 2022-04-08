@@ -257,9 +257,9 @@ class AttendanceController extends Controller
         
         $attendances = $attendance->groupBy('type');
 
-        $patrolAttendances = PatrolAttendance::with("user")->where("site_id", $request->site)->get();
+        $patrolAttendances = PatrolAttendance::with("user", "site")->where("site_id", $request->site)->whereDate("created_at", $request->date)->get();
         
         //return response()->json($attendances);
-        return view('attendance-details', compact("attendances"));
+        return view('attendance-details', compact("attendances", "patrolAttendances"));
     }
 }
