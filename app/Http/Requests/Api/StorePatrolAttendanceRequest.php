@@ -34,6 +34,7 @@ class StorePatrolAttendanceRequest extends FormRequest
             "attendance.*.applicable" => "required|boolean",
             "attendance.*.reliever_id" => "nullable|string|present",
             "attendance.*.guard_id" => "required|string",
+            "attendance.*.off_duty" => "required|boolean",
         ];
     }
 }

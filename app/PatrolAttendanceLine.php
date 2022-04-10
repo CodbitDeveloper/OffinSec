@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatrolAttendanceLine extends Model
 {
     //
-    protected $fillable = ["patrol_attendance_id", "guard_id", "reliever_id", "present", "applicable", "with_permission"];
+    protected $fillable = ["patrol_attendance_id", "guard_id", "reliever_id", "present", "applicable", "with_permission", "off_duty"];
 
     
 
