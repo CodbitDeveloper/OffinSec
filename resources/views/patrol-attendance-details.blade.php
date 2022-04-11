@@ -29,6 +29,7 @@
                                             <th>Present</th>
                                             <th>Applicable</th>
                                             <th>With Permission</th>
+                                            <th>Off Duty</th>
                                             <th>Reliever</th>
                                             <th>With Overtime</th>
                                         </tr>
@@ -40,6 +41,7 @@
                                                 <td>{{$attendance->present ? 'Yes' : 'No'}}</td>
                                                 <td>{{$attendance->applicable ? 'Yes' : 'No'}}</td>
                                                 <td>{{$attendance->with_permission ? 'Yes' : 'No'}}</td>
+                                                <td>{{$attendance->off_duty ? 'Yes' : 'No'}}</td>
                                                 <td>{{$attendance->reliever != null ? $attendance->reliever->firstname.' '.$attendance->reliever->lastname : 'N/A'}}</td>
                                                 <td>{{$attendance->with_overtime ? 'Yes' : 'No'}}</td>
                                             </tr>
