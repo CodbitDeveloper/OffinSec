@@ -227,7 +227,8 @@
                     extend: 'pdfHtml5',
                     title: name
                 }, 'copy', 'print'
-            ]
+            ],
+            order: [[3, 'desc']],
         });
 
         $('#frm_add').on('submit', function(e) {
