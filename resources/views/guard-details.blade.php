@@ -47,6 +47,9 @@
                                         <button type="button" class="btn btn-warning waves-effect" onclick="undeleteGuard('{{$guard->id}}')">
                                             Remove From Archive
                                         </button>
+                                        <button type="button" class="btn btn-danger waves-effect" onclick="forceDelete('{{$guard->id}}')">
+                                            Delete Permanently
+                                        </button>
                                         @endif
                                     </div>
                                 </div>
@@ -94,7 +97,7 @@
                                         $is_guarding = false;
 
                                         foreach($guard->duty_rosters as $duty_roster){
-                                            if(!Carbon\Carbon::parse($duty_roster->site->client->end_date)->isPast()){
+                                            if(isset($duty_roster->site->client) && !Carbon\Carbon::parse($duty_roster->site->client->end_date)->isPast()){
                                                 $is_guarding = true;
                                                 echo $duty_roster->site->name;
                                                 break;
@@ -300,6 +303,28 @@
             </div>
         </div>
     </div>
+    <div id="forceDeleteModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <form method="POST" id="force-delete-form" action="">
+                @csrf
+                @method("DELETE")
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Are you sure?</h4>	
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>You are about to permanently delete this guard. This operation cannot be undone.</p>
+                        <input type="hidden" id="undelete-guard-id"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" id="btn-undelete-guard">Delete Guard</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="enlargeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content modal-md" style="background-color:transparent;">
@@ -481,6 +506,12 @@
         $('#undelete-guard-id').val(guard);
 
         $('#undeleteGuardModal').modal('show');
+    }
+
+    function forceDelete(guard){
+        $('#force-delete-form').attr("action", `/guards/${guard}/delete`);
+
+        $('#forceDeleteModal').modal('show');
     }
     
     $('#btn-undelete-guard').on('click', function(e){

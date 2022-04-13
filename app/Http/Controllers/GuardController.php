@@ -728,4 +728,17 @@ class GuardController extends Controller
 
         return view("guards-archived", compact("guards", "searching"));
     }
+
+    public function forceDelete(String $guard)
+    {
+        $guard = Guard::withTrashed()->where("id", $guard)->first();
+
+        if(is_null($guard)){
+            abort(404);
+        }
+        
+        $guard->forceDelete();
+
+        return redirect("/archived-guards")->with("success", "Guard successfully deleted");
+    }
 }

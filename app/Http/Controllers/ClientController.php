@@ -215,7 +215,7 @@ class ClientController extends Controller
      * @return view
      */
     public function view(Request $request){
-        $client = Client::with('sites', 'sites.duty_roster.guards')
+        $client = Client::with('access_codes', 'sites', 'sites.duty_roster.guards')
         ->where('id', $request->id)->first();
         
         $assigned_guards = array();

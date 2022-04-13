@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/attendance', 'AttendanceController@view')->name('view.attendance');
     Route::get('/attendance-details', 'AttendanceController@details')->name('details.attendance');
     Route::get('/guards', 'GuardController@index')->name('guards');
+    Route::delete('/guards/{guard}/delete', 'GuardController@forceDelete')->name('delete-guard');
     Route::get('/archived-guards', 'GuardController@getArchivedGuards')->name('archived-guards');
     Route::get('/guards/add', 'GuardController@create')->name('guard.add');
     Route::get('/guards/reports', 'GuardController@reports')->name('guard.update');

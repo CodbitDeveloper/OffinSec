@@ -354,6 +354,20 @@
                 </div>
                 <div class="modal-body p-4">
                     <p>Generate access code for client. Send this code to client via client's email address to help the client access their page.</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Access code</th>
+                            <th>Expiry date</th>
+                        </thead>
+                        <tbody>
+                            @foreach($client->access_codes as $code)
+                            <tr>
+                                <td>{{$code->access_code}}</td>
+                                <td>{{$code->expires_at}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     <form role="form">
                         
                     @csrf
