@@ -248,8 +248,8 @@ class SiteController extends Controller
     public function managePatrols(Site $site)
     {
         $site->load("patrol_supervisor");
-        $patrols = $site->patrols()->whereNull("user_id")->get();
-        $supervisedPatrols = $site->patrols()->whereNotNull("user_id")->get();
+        $patrols = $site->patrols()->whereNull("user_id")->latest()->get();
+        $supervisedPatrols = $site->patrols()->whereNotNull("user_id")->latest()->get();
         $scannableAreas = $site->scannable_areas;
         $users = User::all();
         return view('manage-patrols', compact('site', 'patrols', 'scannableAreas', 'users', 'supervisedPatrols'));
