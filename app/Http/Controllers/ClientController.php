@@ -255,7 +255,7 @@ class ClientController extends Controller
         $client = $request->client;
         $site = $request->site;
         
-        $sites = DB::select(DB::raw("SELECT count(id) as total, DAYOFWEEK(date_time) as day from attendances where WEEK(date_time) = WEEK('$date') and site_id = '$site' GROUP BY  day"));
+        $sites = DB::select(DB::raw("SELECT count(patrol_attendance_lines.id) as total, DAYOFWEEK(patrol_attendance_lines.created_at) as day from patrol_attendance_lines JOIN patrol_attendances ON patrol_attendance_lines.patrol_attendance_id = patrol_attendances.id where WEEK(patrol_attendance_lines.created_at) = WEEK('$date') and site_id = '$site' and (patrol_attendance_lines.present = 1 or patrol_attendance_lines.reliever_id IS NOT NULL) GROUP BY  day"));
         $site = Site::where('id', $site)->first();
 
         return response()->json([

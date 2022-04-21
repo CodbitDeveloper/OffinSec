@@ -158,12 +158,12 @@
                             </ul>
                         </li>
                         @endif
-                        @if(in_array(Auth::user()->role, ["admin"]))
+                        @if(in_array(Auth::user()->role, ["admin", "operations-manager"]))
                         <li class="">
                             <a href="/clients">Clients</a>
                         </li>
                         @endif
-                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", "operations-manager"]))
+                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", " b  "]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Attendance</a>
                             <ul class="submenu">
@@ -190,10 +190,10 @@
                             </ul>
                         </li>
                         @endif
-                        @if(in_array(Auth::user()->role, ["admin"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Reports</a>
                             <ul class="submenu">
+                                @if(in_array(Auth::user()->role, ["admin"]))
                                 <li class="has-submenu">
                                     <a href="javascript:void(0)">Client Reports</a>
                                     <ul class="submenu">
@@ -211,9 +211,12 @@
                                 <li>
                                     <a href="/occurrences">Occurrences</a>
                                 </li>
+                                @endif
+                                <li>
+                                    <a href="/call-checks">Call Checks</a>
+                                </li>
                             </ul>
                         </li>
-                        @endif
                         @if(strtolower(Auth::user()->role) == 'admin')
                         <li>
                             <a href="/users">Users</a>
@@ -310,7 +313,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">

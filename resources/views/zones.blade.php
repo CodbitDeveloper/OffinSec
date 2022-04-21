@@ -66,7 +66,7 @@
     </div>
     <div id="delete_zone" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form id="edit_zone_form">
+            <form id="delete_zone_form">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Are you sure?</h4>	
@@ -86,7 +86,7 @@
     </div>
     <div id="edit_zone" class="modal fade">
         <div class="modal-dialog modal-confirm">
-            <form id="delete_zone_form">
+            <form id="edit_zone_form">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Edit Zone</h4>	
@@ -241,22 +241,18 @@
         $("#edit_zone").modal("show");
     }
 
-    $("#edit_shift").on("submit", function(e){
+    $("#edit_zone_form").on("submit", function(e){
         e.preventDefault();
         const btn = $(this).find("[type=submit]");
 
         let data = $(this).serialize();
-        const start_time = "1970-01-01 "+$("#edit_start_time").val();
-        const end_time = "1970-01-01 "+$("#edit_end_time").val();
-
-        data += `name=${$('#edit_name').val()}&start_time=${start_time}&end_time=${end_time}`;
 
         const initial_text = btn.html();
 
         applyLoading(btn);
 
         $.ajax({
-        url : "/api/shift-type/update/"+$("#edit_id").val(),
+        url : "/api/zones/"+$("#edit_id").val(),
         method : "PUT",
         data : data,
         success: function(data){

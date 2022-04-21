@@ -21,4 +21,10 @@ class ScannableAreaController extends Controller
             "data" => $scannableArea
         ]);
     }
+
+    public function update(Request $request, ScannableArea $scannableArea)
+    {
+        $scannableArea->update($request->all());
+        return redirect(url()->previous())->with("success", "Scannable area updated");
+    }
 }

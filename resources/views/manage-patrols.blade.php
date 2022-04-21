@@ -20,11 +20,12 @@
                 <div class="panel-body">
                     @foreach ($scannableAreas as $scannableArea)
                         <p>{{ $scannableArea->name }} @if (!is_null($scannableArea->latitude))
-                                ({{ $scannableArea->latitude }},{{ $scannableArea->longitude }}) @endif <br /> <span
+                                ({{ $scannableArea->latitude }},{{ $scannableArea->longitude }})
+                            @endif <br /> <span
                                 class="text-small text-muted">{{ $scannableArea->location_code }}</span></p>
                         <a class="badge badge-pill d-inline" href="javascript:void(0)"
                             onclick="print('{{ $scannableArea->location_code }}')">Print QR Code</a>
-                        <a class="badge badge-pill d-inline" href="javascript:void(0)">Edit</a>
+                        <a class="badge badge-pill d-inline" href="javascript:void(0)" onclick="editLocation('{{$scannableArea->id}}', '{{$scannableArea->name}}', '{{$scannableArea->latitude}}', '{{$scannableArea->longitude}}')">Edit</a>
                         <form method="POST" action="" style="display: inline">
                             @method("DELETE")
                             @csrf
@@ -39,25 +40,30 @@
                     @endif
                     <button class="btn btn-custom" data-toggle="modal" data-target="#createScannableAreaModal">Add
                         New</button>
-                        <button class="btn btn-custom" data-toggle="modal" data-target="#assignPatrolOfficer">Assign Patrol Officer</button>
+                    <button class="btn btn-custom" data-toggle="modal" data-target="#assignPatrolOfficer">Assign Patrol
+                        Officer</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-8 col-sm-12">
             <div class="card-box">
-                <p>Patrol Officer : {{$site->patrol_supervisor ? $site->patrol_supervisor->firstname." ".$site->patrol_supervisor->lastname : "N/A"}}</p>
+                <p>Patrol Officer :
+                    {{ $site->patrol_supervisor? $site->patrol_supervisor->firstname . ' ' . $site->patrol_supervisor->lastname: 'N/A' }}
+                </p>
                 <div class="card-header tab-card-header">
                     <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                      <li class="nav-item">
-                          <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="true">Site Supervisors</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Patrol Officers</a>
-                      </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="one-tab" data-toggle="tab" href="#one" role="tab"
+                                aria-controls="One" aria-selected="true">Site Supervisors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="two-tab" data-toggle="tab" href="#two" role="tab"
+                                aria-controls="Two" aria-selected="false">Patrol Officers</a>
+                        </li>
                     </ul>
-                  </div>
-          
-                  <div class="tab-content" id="myTabContent">
+                </div>
+
+                <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
                         <table class="table table-striped table-responsive">
                             <thead>
@@ -75,12 +81,18 @@
                                         <th>{{ $patrol->patrol_officer }}</th>
                                         <th>{{ $patrol->notes }}</th>
                                         <th>{{ $patrol->created_at }}</th>
-                                        <th>@if($patrol->images->count() > 0) <a href="{{$patrol->images[0]->url}}" target="_blank">View</a> @else N/A @endif</th>
+                                        <th>
+                                            @if ($patrol->images->count() > 0)
+                                                <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
+                                            @else
+                                                N/A
+                                            @endif
+                                        </th>
                                         <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>          
+                        </table>
                     </div>
                     <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
                         <table class="table table-striped table-responsive">
@@ -99,17 +111,23 @@
                                         <th>{{ $patrol->patrol_officer }}</th>
                                         <th>{{ $patrol->notes }}</th>
                                         <th>{{ $patrol->created_at }}</th>
-                                        <th>@if($patrol->images->count() > 0) <a href="{{$patrol->images[0]->url}}" target="_blank">View</a> @else N/A @endif</th>
+                                        <th>
+                                            @if ($patrol->images->count() > 0)
+                                                <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
+                                            @else
+                                                N/A
+                                            @endif
+                                        </th>
                                         <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>             
+                        </table>
                     </div>
-          
-                  </div>
-                
-                
+
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -152,6 +170,44 @@
             </div>
         </div>
     </div>
+    <div id="editScannableArea" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Scannable Area</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form role="form" method="POST" id="frm_edit">
+                        @csrf
+                        @method("PUT")
+                        <div class="form-row mb-2">
+                            <div class="col-md-12 col-sm-12">
+                                <label for="contact_number" class="col-form-label"><b>Name</b></label>
+                                <input class="form-control resetable" type="text" id="edit_name" placeholder="eg (Main Entrance)"
+                                    name="name" required>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="contact_number" class="col-form-label"><b>Latitude</b></label>
+                                <input class="form-control resetable" type="text" id="edit_latitude" placeholder=""
+                                    name="latitude">
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="contact_number" class="col-form-label"><b>Longitude</b></label>
+                                <input class="form-control resetable" type="text" id="edit_longitude" placeholder=""
+                                    name="longitude">
+                            </div>
+                        </div>
+                        <div class="text-right mt-2">
+                            <button type="submit" class="btn btn-icon ml-1 waves-effect waves-light btn-custom">Edit</button>
+                            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="assignPatrolOfficer" class="modal fade">
         <div class="modal-dialog modal-confirm">
             <div class="modal-content">
@@ -160,16 +216,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form role="form" id="assign_supervisor" method="POST" action="/sites/{{$site->id}}/user">
+                    <form role="form" id="assign_supervisor" method="POST" action="/sites/{{ $site->id }}/user">
                         @csrf
                         <div class="form-row mb-2">
                             <div class="col-md-12 col-sm-12">
                                 <label for="contact_number" class="col-form-label"><b>Name</b></label>
-                                <select class="custom-select" id="user_id" placeholder="eg (Main Entrance)"
-                                    name="user_id" required>
+                                <select class="custom-select" id="user_id" placeholder="eg (Main Entrance)" name="user_id"
+                                    required>
                                     <option selected hidden disabled>Select a user</option>
-                                    @foreach($users as $user)
-                                    <option value="{{$user->id}}">{{$user->firstname." ".$user->lastname}}</option>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->firstname . ' ' . $user->lastname }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -228,7 +285,9 @@
                     title: name
                 }, 'copy', 'print'
             ],
-            order: [[3, 'desc']],
+            order: [
+                [3, 'desc'],
+            ],
         });
 
         $('#frm_add').on('submit', function(e) {
@@ -291,6 +350,15 @@
                 size: 400
             });
             $("#printQrModal").modal("show");
+        }
+
+        const editLocation = (id, name, latitude, longitude) => {
+            $("#edit_name").val(name);
+            $("#edit_latitude").val(latitude);
+            $("#edit_longitude").val(longitude);
+            $("#frm_edit").attr("action", `/scannable-areas/${id}`);
+
+            $("#editScannableArea").modal("show");
         }
     </script>
 @endsection

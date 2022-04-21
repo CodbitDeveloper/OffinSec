@@ -59,4 +59,9 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/zones', 'ZoneController@index');
     Route::get('/patrol-attendance/{patrolAttendance}', 'PatrolAttendanceController@show');
+
+    Route::get('/call-checks', 'CallCheckController@index');
+    Route::post('/call-checks', 'CallCheckController@store');
+
+    Route::put('/scannable-areas/{scannableArea}', 'ScannableAreaController@update');
 });
