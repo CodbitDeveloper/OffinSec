@@ -64,8 +64,7 @@
             </div>
             <div class="form-group account-btn text-center m-t-10">
                 <div class="col-12">
-                    <button class="btn w-lg btn-custom waves-effect waves-light" type="submit">Add
-                        User</button>
+                    <button class="btn w-lg btn-custom waves-effect waves-light" type="submit">Record</button>
                 </div>
             </div>
 
