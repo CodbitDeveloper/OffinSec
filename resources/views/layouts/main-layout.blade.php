@@ -163,7 +163,7 @@
                             <a href="/clients">Clients</a>
                         </li>
                         @endif
-                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", " b  "]))
+                        @if(in_array(Auth::user()->role, ["admin", "zone-supervisor", "operations-manager"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Attendance</a>
                             <ul class="submenu">
