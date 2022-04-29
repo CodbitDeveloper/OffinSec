@@ -270,8 +270,8 @@
                                         <div class="sk-circle12 sk-child"></div>
                                     </div>
                                 </div>
-                                <div id="patrol-table-container">
-                                    <table id="patrols-table" class="datatable table table-striped table-responsive">
+                                <div class="table-responsive" id="patrol-table-container">
+                                    <table id="patrols-table" class="table table-striped table-responsive">
                                         <thead>
                                             <th>Site</th>
                                             <th>Patrol Officer</th>
@@ -347,6 +347,7 @@
         $(document).ready(function() {
             @if($client->sites->count() > 0)
             loadGraph({{date('Y-m-d')}}, $('#graph_sites').val());
+            loadPatrols({{date('Y-m-d')}}, $('#graph_sites').val())
             @else
             $('.loader').css('display', 'none');
             $('.patrol-loader').css('display', 'none');
