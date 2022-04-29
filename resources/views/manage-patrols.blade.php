@@ -51,6 +51,7 @@
                     <p>Patrol Supervisors</p>
                     @foreach($site->patrol_supervisors as $patrol_supervisor)
                     <form class="d-inline" method="POST" action="/remove-patrol-supervisor" onsubmit="return confirm('Are you sure you want to remove this patrol officer');">
+                        @csrf
                         <input type="hidden" name="site_id" value="{{$site->id}}">
                         <input type="hidden" name="user_id" value="{{$patrol_supervisor->id}}"/>
                         <span>{{ $patrol_supervisor->firstname . ' ' . $patrol_supervisor->guarantor_lastname}}</span>
