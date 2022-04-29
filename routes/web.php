@@ -14,6 +14,7 @@ Route::get('/', "Auth\LoginController@doLogin")->middleware('guest');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/client-access', 'ClientController@clientAccess')->name('client-access.view');
+Route::get("/clients/{site}/patrols", "PatrolController@getPatrolsForClient");
 Route::get('/download/{file}', 'ReportController@download');
 
 Auth::routes();
@@ -55,7 +56,6 @@ Route::middleware('auth')->group(function(){
     Route::delete('/fingerprint/delete/{fingerprint}', 'FingerprintController@destroy');
 
     Route::get("/patrol/{patrol}", "PatrolController@show");
-    Route::get("/clients/{site}/patrols", "PatrolController@getPatrolsForClient");
     Route::post("/sites/{site}/user", "SiteController@assignUser");
 
     Route::get('/zones', 'ZoneController@index');
