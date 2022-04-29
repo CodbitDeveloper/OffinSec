@@ -239,7 +239,7 @@
                                     multiple required>
                                     <option selected hidden disabled>Select a user</option>
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->firstname . ' ' . $user->lastname }}
+                                        <option value="{{ $user->id }}" {{ in_array($user->id, $site->patrol_officers->pluck("id")->toArray()) ? 'selected' : '' }}>{{ $user->firstname . ' ' . $user->lastname }}
                                         </option>
                                     @endforeach
                                 </select>
