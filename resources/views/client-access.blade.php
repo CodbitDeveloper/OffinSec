@@ -346,8 +346,8 @@
 
         $(document).ready(function() {
             @if($client->sites->count() > 0)
-            loadGraph({{date('Y-m-d')}}, $('#graph_sites').val());
-            loadPatrols({{date('Y-m-d')}}, $('#graph_sites').val())
+            loadGraph("{{date('Y-m-d')}}", $('#graph_sites').val());
+            loadPatrols("{{date('Y-m-d')}}", $('#graph_sites').val());
             @else
             $('.loader').css('display', 'none');
             $('.patrol-loader').css('display', 'none');
