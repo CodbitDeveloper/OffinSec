@@ -137,6 +137,14 @@
                                 <p class="text-muted font-13"><strong>Occupation :</strong> <span class="m-l-15">{{$guarantor->occupation}}</span></p>
 
                                 <p class="text-muted font-13"><strong>ID Number :</strong> <span class="m-l-15">{{$guarantor->national_id}}</span></p>
+
+                                <form action="/guarantors/{{$guarantor->id}}" onsubmit="return confirm('Are you sure you want to delete this guarantor')">
+                                    @method("DELETE")
+                                    @csrf
+                                    <input type="submit" value="Delete"
+                                        style="display: inline; color: red; border:none; background:none; font-size: 11px; font-weight:bold; cursor: pointer;"
+                                        value="Delete">
+                                </form>
                             </div>
                             @endforeach
                         </div>

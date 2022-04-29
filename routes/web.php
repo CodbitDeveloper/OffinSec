@@ -65,4 +65,5 @@ Route::middleware('auth')->group(function(){
     Route::post('/call-checks', 'CallCheckController@store');
 
     Route::put('/scannable-areas/{scannableArea}', 'ScannableAreaController@update');
+    Route::delete('/guarantors/{guarantor}', 'GuardController@deleteGuarantor');
 });

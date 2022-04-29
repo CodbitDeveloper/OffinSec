@@ -747,4 +747,10 @@ class GuardController extends Controller
 
         return redirect("/archived-guards")->with("success", "Guard successfully deleted");
     }
+
+    public function deleteGuarantor(Guarantor $guarantor)
+    {
+        $guarantor->forceDelete();
+        return redirect(url()->previous())->with("success", "Guarantor successfully deleted");
+    }
 }
