@@ -52,7 +52,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function sites()
     {
-        return $this->hasMany(Site::class);
+        return $this->belongsToMany(Site::class);
     }
 
 }
