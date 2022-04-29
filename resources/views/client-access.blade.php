@@ -504,10 +504,11 @@
                 success: function(data){
                     $(".patrol-loader").css("display", "none");
                     $("#patrols-table-body").html('');
+                    console.log(data);
                     for(let item of data){
                         $("#patrols-table-body").append(`
                             <tr>
-                            <td>${$("#graph_sites").html()}</td>
+                            <td>${$("#graph_sites").attr("title")}</td>
                             <td>${item.patrol_officer}</td>
                             <td>${item.notes}</td>
                             <td>${item.scans_count}</td>
