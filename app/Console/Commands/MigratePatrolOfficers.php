@@ -43,7 +43,7 @@ class MigratePatrolOfficers extends Command
         $sites = Site::all();
         foreach($sites as $site){
             if($site->user_id != null){
-                DB::table("site_user")->insert(["site_id" => $site->id, "user_id" => $user->id]);
+                DB::table("site_user")->insert(["site_id" => $site->id, "user_id" => $site->user_id]);
             }
         }
     }
