@@ -53,7 +53,7 @@
                     <form class="d-inline" method="POST" action="/remove-patrol-supervisor" onsubmit="return confirm('Are you sure you want to remove this patrol officer');">
                         <input type="hidden" name="site_id" value="{{$site->id}}">
                         <input type="hidden" name="user_id" value="{{$patrol_supervisor->id}}"/>
-                        <span>{{ patrol_supervisor->firstname . ' ' . patrol_supervisor->guarantor_lastname}}</span>
+                        <span>{{ $patrol_supervisor->firstname . ' ' . $patrol_supervisor->guarantor_lastname}}</span>
                         <input type="submit" value="Remove"
                             style="display: inline; color: red; border:none; background:none; font-size: 11px; font-weight:bold; cursor: pointer;"
                             value="Delete">
