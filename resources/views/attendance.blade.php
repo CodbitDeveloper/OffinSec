@@ -62,7 +62,7 @@
                     <form>
                         <div class="modal-body">
                             <div class="form-group col-md-12">
-                                <select class="selectpicker show-tick" data-style="btn-light" title="Select A Site"
+                                <select class="selectpicker show-tick" data-live-search="true" data-style="btn-light" title="Select A Site"
                                     id="site" name="site">
                                     @foreach($sites as $site)
                                         <option value="{{$site->id}}">{{$site->name}}</option>

@@ -6,7 +6,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="project-sort float-right">
-                        <div class="project-sort-item">
+                        <div class="project-sort-item mb-4">
                             <form class="form-inline" action="">
                                 <div class="input-group">
                                     <input type="text" class="form-control required" id="dob" name="q" autocomplete="false" required>
