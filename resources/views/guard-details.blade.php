@@ -138,7 +138,7 @@
 
                                 <p class="text-muted font-13"><strong>ID Number :</strong> <span class="m-l-15">{{$guarantor->national_id}}</span></p>
 
-                                <form action="/guarantors/{{$guarantor->id}}" onsubmit="return confirm('Are you sure you want to delete this guarantor')">
+                                <form action="/guarantors/{{$guarantor->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this guarantor')">
                                     @method("DELETE")
                                     @csrf
                                     <input type="submit" value="Delete"
