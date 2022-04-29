@@ -501,11 +501,11 @@
 
             $.ajax({
                 url: `/clients/${site}/patrols?date=${date}&site=${site}`,
-                success: function(data){
+                success: function(response){
                     $(".patrol-loader").css("display", "none");
                     $("#patrols-table-body").html('');
-                    console.log(data);
-                    for(let item of data){
+                    console.log(response);
+                    for(let item of response){
                         $("#patrols-table-body").append(`
                             <tr>
                             <td>${$("#graph_sites").attr("title")}</td>
