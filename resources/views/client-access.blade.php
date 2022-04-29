@@ -504,7 +504,7 @@
                 success: function(response){
                     $(".patrol-loader").css("display", "none");
                     $("#patrols-table-body").html('');
-                    for(let item of response){
+                    for(let item of JSON.parse(response)){
                         console.log(item)
                         $("#patrols-table-body").append(`
                             <tr>
