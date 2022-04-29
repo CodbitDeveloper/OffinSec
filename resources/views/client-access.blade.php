@@ -502,9 +502,20 @@
             $.ajax({
                 url: `/clients/${site}/patrols?date=${date}&site=${site}`,
                 success: function(data){
+                    $(".patrol-loader").css("display", "none");
+                    $("#patrols-table-body").html('');
                     for(let item of data){
-
+                        $("#patrols-table-body").append(`
+                            <tr>
+                            <td>${$("#graph_sites").html()}</td>
+                            <td>${item.patrol_officer}</td>
+                            <td>${item.notes}</td>
+                            <td>${item.scans_count}</td>
+                            <td>${item.created_at}</td>
+                            </tr>
+                        `)
                     }
+                    $("#patrol-table-container").css("display", "block");
                 }
             });
         }
