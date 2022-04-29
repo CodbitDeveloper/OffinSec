@@ -504,8 +504,8 @@
                 success: function(response){
                     $(".patrol-loader").css("display", "none");
                     $("#patrols-table-body").html('');
-                    console.log(response);
                     for(let item of response){
+                        console.log(item)
                         $("#patrols-table-body").append(`
                             <tr>
                             <td>${$("#graph_sites").attr("title")}</td>
