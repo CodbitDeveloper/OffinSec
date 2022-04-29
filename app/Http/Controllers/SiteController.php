@@ -257,7 +257,7 @@ class SiteController extends Controller
 
     public function assignUser(Site $site, Request $request)
     {
-        $site->patrol_supervisors()->sync($request->user_ids);
+        $site->patrol_supervisors()->attach($request->user_ids);
 
         return redirect(url()->previous())->with("success", "Patrol officer assigned");
     }
