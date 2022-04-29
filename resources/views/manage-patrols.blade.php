@@ -47,9 +47,23 @@
         </div>
         <div class="col-lg-8 col-sm-12">
             <div class="card-box">
-                <p>Patrol Officer :
-                    {{ $site->patrol_supervisor? $site->patrol_supervisor->firstname . ' ' . $site->patrol_supervisor->lastname: 'N/A' }}
-                </p>
+                <div>
+                    <p>Patrol Supervisors</p>
+                    @foreach($site->patrol_supervisors as $patrol_supervisor)
+                    <form class="d-inline" method="POST" action="/remove-patrol-supervisor" onsubmit="return confirm('Are you sure you want to remove this patrol officer');">
+                        <input type="hidden" name="site_id" value="{{$site->id}}">
+                        <input type="hidden" name="user_id" value="{{$patrol_supervisor->id}}"/>
+                        <span>{{ patrol_supervisor->firstname . ' ' . patrol_supervisor->guarantor_lastname}}</span>
+                        <input type="submit" value="Remove"
+                            style="display: inline; color: red; border:none; background:none; font-size: 11px; font-weight:bold; cursor: pointer;"
+                            value="Delete">
+                    </form>            
+                    @endforeach
+                    @if(empty($site->patrol_supervisors))
+                    <strong>N/A</strong>
+                    @endif
+                </div>
+                <hr/>
                 <div class="card-header tab-card-header">
                     <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -221,8 +235,8 @@
                         <div class="form-row mb-2">
                             <div class="col-md-12 col-sm-12">
                                 <label for="contact_number" class="col-form-label"><b>Name</b></label>
-                                <select class="custom-select" id="user_id" placeholder="eg (Main Entrance)" name="user_id"
-                                    required>
+                                <select class="custom-select" id="user_id" placeholder="eg (Main Entrance)" name="user_id[]"
+                                    multiple required>
                                     <option selected hidden disabled>Select a user</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->firstname . ' ' . $user->lastname }}

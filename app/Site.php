@@ -62,9 +62,9 @@ class Site extends Model
         return $this->hasMany(Patrol::class);
     }
 
-    public function patrol_supervisor()
+    public function patrol_supervisors()
     {
-        return $this->belongsTo(User::class, "user_id");
+        return $this->belongsToMany(User::class);
     }
 
     public function zone()

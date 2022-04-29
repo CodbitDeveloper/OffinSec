@@ -66,4 +66,6 @@ Route::middleware('auth')->group(function(){
 
     Route::put('/scannable-areas/{scannableArea}', 'ScannableAreaController@update');
     Route::delete('/guarantors/{guarantor}', 'GuardController@deleteGuarantor');
+
+    Route::post('/remove-patrol-supervisor', 'SiteController@removePatrolSupervisor');
 });

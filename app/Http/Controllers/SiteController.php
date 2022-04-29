@@ -247,7 +247,7 @@ class SiteController extends Controller
 
     public function managePatrols(Site $site)
     {
-        $site->load("patrol_supervisor");
+        $site->load("patrol_supervisors");
         $patrols = $site->patrols()->whereNull("user_id")->get();
         $supervisedPatrols = $site->patrols()->whereNotNull("user_id")->get();
         $scannableAreas = $site->scannable_areas;
@@ -261,5 +261,11 @@ class SiteController extends Controller
         $site->save();
 
         return redirect(url()->previous())->with("success", "Patrol officer assigned");
+    }
+
+    public function removePatrolSupervisor(Request $request)
+    {
+        DB::table("site_user")->where("site_id", $request->site_id)->where("user_id", $request->user_id)->delete();
+        return redirect(url()->previous())->with("success", "Patrol officer removed");
     }
 }
