@@ -80,64 +80,68 @@
 
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active p-3" id="one" role="tabpanel" aria-labelledby="one-tab">
-                        <table class="table table-striped table-responsive">
-                            <thead>
-                                <th>Patrol ID</th>
-                                <th>Patrol Officer</th>
-                                <th>Notes</th>
-                                <th>Created At</th>
-                                <th>Images</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($patrols as $patrol)
-                                    <tr>
-                                        <th>{{ $patrol->id }}</th>
-                                        <th>{{ $patrol->patrol_officer }}</th>
-                                        <th>{{ $patrol->notes }}</th>
-                                        <th>{{ $patrol->created_at }}</th>
-                                        <th>
-                                            @if ($patrol->images->count() > 0)
-                                                <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
-                                            @else
-                                                N/A
-                                            @endif
-                                        </th>
-                                        <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>Patrol ID</th>
+                                    <th>Patrol Officer</th>
+                                    <th>Notes</th>
+                                    <th>Created At</th>
+                                    <th>Images</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($patrols as $patrol)
+                                        <tr>
+                                            <th>{{ $patrol->id }}</th>
+                                            <th>{{ $patrol->patrol_officer }}</th>
+                                            <th>{{ $patrol->notes }}</th>
+                                            <th>{{ $patrol->created_at }}</th>
+                                            <th>
+                                                @if ($patrol->images->count() > 0)
+                                                    <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </th>
+                                            <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="tab-pane fade p-3" id="two" role="tabpanel" aria-labelledby="two-tab">
-                        <table class="table table-striped table-responsive">
-                            <thead>
-                                <th>Patrol ID</th>
-                                <th>Patrol Officer</th>
-                                <th>Notes</th>
-                                <th>Created At</th>
-                                <th>Images</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($supervisedPatrols as $patrol)
-                                    <tr>
-                                        <th>{{ $patrol->id }}</th>
-                                        <th>{{ $patrol->patrol_officer }}</th>
-                                        <th>{{ $patrol->notes }}</th>
-                                        <th>{{ $patrol->created_at }}</th>
-                                        <th>
-                                            @if ($patrol->images->count() > 0)
-                                                <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
-                                            @else
-                                                N/A
-                                            @endif
-                                        </th>
-                                        <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">        
+                            <table class="table table-striped table-responsive">
+                                <thead>
+                                    <th>Patrol ID</th>
+                                    <th>Patrol Officer</th>
+                                    <th>Notes</th>
+                                    <th>Created At</th>
+                                    <th>Images</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($supervisedPatrols as $patrol)
+                                        <tr>
+                                            <th>{{ $patrol->id }}</th>
+                                            <th>{{ $patrol->patrol_officer }}</th>
+                                            <th>{{ $patrol->notes }}</th>
+                                            <th>{{ $patrol->created_at }}</th>
+                                            <th>
+                                                @if ($patrol->images->count() > 0)
+                                                    <a href="{{ $patrol->images[0]->url }}" target="_blank">View</a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </th>
+                                            <th><a href="/patrol/{{ $patrol->id }}">View</a></th>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
