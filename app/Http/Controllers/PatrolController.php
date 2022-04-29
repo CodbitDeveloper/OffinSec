@@ -20,7 +20,7 @@ class PatrolController extends Controller
         return view("patrol-details", compact("patrol"));
     }
 
-    public function getPatrolForClient(Request $request, Site $site)
+    public function getPatrolsForClient(Request $request, Site $site)
     {
         $patrols = Patrol::where("site_id", $site->id)->withCount("scans")->get();
 
