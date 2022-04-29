@@ -271,7 +271,7 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive" id="patrol-table-container">
-                                    <table id="patrols-table" class="table table-striped table-responsive">
+                                    <table id="patrols-table" class="table table-striped">
                                         <thead>
                                             <th>Site</th>
                                             <th>Patrol Officer</th>
@@ -492,6 +492,7 @@
 
         $('#date').on('change', function() {
             loadGraph($(this).val(), $('#graph_sites').val());
+            loadPatrols($(this).val(), $('#graph_sites').val());
         });
 
         function loadPatrols(date, site)
