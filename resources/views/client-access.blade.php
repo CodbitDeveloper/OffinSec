@@ -279,7 +279,7 @@
                                             <th>Areas scanned</th>
                                             <th>Date</th>
                                         </thead>
-                                        <tbody id="patrols-table-body></tbody>
+                                        <tbody id="patrols-table-body"></tbody>
                                     </table>
                                 </div>
                             </div>
