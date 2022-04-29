@@ -723,7 +723,13 @@ class GuardController extends Controller
      */
     public function getArchivedGuards(Request $request)
     {
-        $guards = Guard::onlyTrashed()->paginate(15);
+        $guards = Guard::onlyTrashed();
+        if($request->has("q")){
+            $term = $request->q;
+            $guards = $guards->where(DB::raw("CONCAT(firstname,' ', lastname)"), "LIKE", '%'.$term.'%');
+        }
+
+        $guards = $guards->paginate(15);
         $searching = false;
 
         return view("guards-archived", compact("guards", "searching"));

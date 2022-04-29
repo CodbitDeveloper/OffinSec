@@ -11,29 +11,29 @@
 -->
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <title>{{$client->name}} | GUARD ATTENDANCE MANAGEMENT SYSTEM</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="Guard attendance management system. Allows security agencies to track the attendance of their guards."
-        name="description" />
+    <meta content="Guard attendance management system. Allows security agencies to track the attendance of their guards." name="description" />
     <meta content="Codbit Developers" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!--Custom css--> 
-    <link href="{{asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet"/>
+    <!--Custom css-->
+    <link href="{{asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('plugins/bootstrap-select/css/bootstrap-select.min.css')}}" rel="stylesheet" />
     <link href="{{asset('plugins/spinkit/spinkit.css')}}" rel="stylesheet" />
     <style>
-        .text-small{
+        .text-small {
             font-size: 14px;
         }
 
-        .text-tiny{
+        .text-tiny {
             font-size: 12px;
         }
 
-        .text-black{
+        .text-black {
             color: black;
         }
     </style>
@@ -43,7 +43,7 @@
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/icons.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('plugins/jquery-toastr/jquery.toast.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('plugins/jquery-toastr/jquery.toast.min.css')}}" rel="stylesheet" />
 
 
     <script src="{{asset('assets/js/modernizr.min.js')}}"></script>
@@ -98,20 +98,20 @@
                 content you want comes here
             -->
             <div class="row">
-        <div class="col-sm-12">
+                <div class="col-sm-12">
                     <!-- meta -->
-            <div class="profile-user-box card-box bg-custom">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="media-body text-white">
-                            <h4 class="mt-1 mb-1 font-18">{{$client->name}}</h4>
-                            <p class="font-13 text-light">Security Provision</p>
+                    <div class="profile-user-box card-box bg-custom">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="media-body text-white">
+                                    <h4 class="mt-1 mb-1 font-18">{{$client->name}}</h4>
+                                    <p class="font-13 text-light">Security Provision</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
                     <!--/ meta -->
-        </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xl-4">
@@ -154,9 +154,8 @@
                                 </div>
                             </a>
                             @endforeach
-                            @if($client->sites->count() < 1)
-                                <p class="text-muted">No sites for this client yet. Add one.</p>
-                            @endif
+                            @if($client->sites->count() < 1) <p class="text-muted">No sites for this client yet. Add one.</p>
+                                @endif
                         </div>
                     </div>
 
@@ -187,10 +186,10 @@
                             <div class="card-box tilebox-one">
                                 <i class="icon-calender float-right text-muted"></i>
                                 <h6 class="text-muted text-uppercase mt-0">Days Elapsed</h6>
-                                <?php $date = Carbon\Carbon::parse($client->start_date)?>
+                                <?php $date = Carbon\Carbon::parse($client->start_date) ?>
                                 <h2 class="m-b-20">{{$date->diffInDays(Carbon\Carbon::now())}}
                                     @if(!$date->isPast())
-                                        <span class="text-muted text-small"> DAYS FROM TODAY</span>
+                                    <span class="text-muted text-small"> DAYS FROM TODAY</span>
                                     @endif
                                 </h2>
                             </div>
@@ -198,62 +197,103 @@
 
                     </div>
                     <!-- end row -->
-            <div class="card-box">
-                <h4 class="header-title mt-0 mb-3">Reports</h4>
-                <div class="">
-                    <div class="row mb-4">
-                        <div class="col-sm-10">
-                            <div class="project-sort float-right">
-                                <div class="project-sort-item">
-                                    <form class="form-inline">
-                                        <div class="form-group">
-                                            <select class="show-tick" data-style="btn-primary"
-                                                title="Select Site" id="graph_sites">
-                                                @foreach($client->sites as $site)
-                                                    <option value="{{$site->id}}">{{$site->name}}</option>
-                                                @endforeach
-                                            </select>
+                    <div class="card-box">
+                        <h4 class="header-title mt-0 mb-3">Reports</h4>
+                        <div class="">
+                            <div class="row mb-4">
+                                <div class="col-sm-10">
+                                    <div class="project-sort float-right">
+                                        <div class="project-sort-item">
+                                            <form class="form-inline">
+                                                <div class="form-group">
+                                                    <select class="show-tick" data-style="btn-primary" title="Select Site" id="graph_sites">
+                                                        @foreach($client->sites as $site)
+                                                        <option value="{{$site->id}}">{{$site->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="date" placeholder="Date">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="date" placeholder="Date">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Attendance</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Patrols</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">u
+                                <div class="loader">
+                                    <div class="sk-circle loader">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                </div>
+                                <canvas id="lineChart" height="350" class="mt-4" style="display:none;"></canvas>
+                                <div id="chartError"></div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                <div class="patrol-loader">
+                                    <div class="sk-circle loader">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                </div>
+                                <div id="patrol-table-container">
+                                    <table id="patrols-table" class="datatable table table-striped table-responsive">
+                                        <thead>
+                                            <th>Site</th>
+                                            <th>Patrol Officer</th>
+                                            <th>Notes</th>
+                                            <th>Areas scanned</th>
+                                            <th>Date</th>
+                                        </thead>
+                                        <tbody id="patrols-table-body></tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="loader">
-                    <div class="sk-circle loader">
-                        <div class="sk-circle1 sk-child"></div>
-                        <div class="sk-circle2 sk-child"></div>
-                        <div class="sk-circle3 sk-child"></div>
-                        <div class="sk-circle4 sk-child"></div>
-                        <div class="sk-circle5 sk-child"></div>
-                        <div class="sk-circle6 sk-child"></div>
-                        <div class="sk-circle7 sk-child"></div>
-                        <div class="sk-circle8 sk-child"></div>
-                        <div class="sk-circle9 sk-child"></div>
-                        <div class="sk-circle10 sk-child"></div>
-                        <div class="sk-circle11 sk-child"></div>
-                        <div class="sk-circle12 sk-child"></div>
-                    </div>
-                </div>
-                <canvas id="lineChart" height="350" class="mt-4" style="display:none;"></canvas>
-                <div id="chartError"></div>
-            </div>
 
-        </div>
+                </div>
                 <!-- end col -->
 
-    </div>
+            </div>
         </div> <!-- end container -->
     </div>
     <!-- end wrapper -->
-   
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -275,22 +315,22 @@
     <script src="{{asset('assets/js/avatar.js')}}"></script>
     <script src="{{asset('plugins/jquery-toastr/jquery.toast.min.js')}}" type="text/javascript"></script>
 
-      <!--Telephone Mask-->
-      <script src="{{asset('/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script>
-    
+    <!--Telephone Mask-->
+    <script src="{{asset('/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js')}}" type="text/javascript"></script>
+
     <!--Bootstrap Datepicker-->
     <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-    
+
     <!--JQUERY toast-->
-    
+
     <!-- Chart JS -->
     <script src="{{asset('plugins/chart.js/chart.bundle.js')}}"></script>
-    
+
     <!--Bootstrap Select-->
     <script src="{{asset('plugins/bootstrap-select/js/bootstrap-select.js')}}" type="text/javascript"></script>
 
     <script>
-
+        var clientId = "{{$client->id}}";
         $('.selectpicker').selectpicker();
         $('#graph_sites').selectpicker('val', $('#graph_sites option:first').val());
 
@@ -304,76 +344,80 @@
         });
 
 
-        $(document).ready(function(){
+        $(document).ready(function() {
             @if($client->sites->count() > 0)
-                loadGraph({{date('Y-m-d')}}, $('#graph_sites').val());
+            loadGraph({{date('Y-m-d')}}, $('#graph_sites').val());
             @else
-                $('.loader').css('display', 'none');
-                $('#chartError').css('display', 'block');
-                $('#chartError').html('<p class="text-muted text-small text-center"><b>This client has no sites yet</b></p>');
+            $('.loader').css('display', 'none');
+            $('.patrol-loader').css('display', 'none');
+            $('#chartError').css('display', 'block');
+            $('#chartError').html('<p class="text-muted text-small text-center"><b>This client has no sites yet</b></p>');
             @endif
         });
-        
 
-        function loadGraph(date, site){
+
+        function loadGraph(date, site) {
             $('#chartError, #lineChart').css('display', 'none');
             $('.loader').css('display', 'block')
             $.ajax({
-                url : '/api/client/report',
-                data: 'site='+site+'&date='+date+'&client={{$client->id}}',
+                url: '/api/client/report',
+                data: 'site=' + site + '&date=' + date + '&client={{$client->id}}',
                 method: 'GET',
-                success: function(data){
+                success: function(data) {
                     $('.loader').css('display', 'none');
                     $('#lineChart').css('display', 'block');
 
                     var dataset = [];
-                    for(var i = 0; i <= 6; i++){
+                    for (var i = 0; i <= 6; i++) {
                         var found = false;
-                        for(var k = 0; k < data.sites.length; k++){
-                            if(data.sites[k].day == i){
+                        for (var k = 0; k < data.sites.length; k++) {
+                            if (data.sites[k].day == i) {
                                 dataset.push(data.sites[k].total);
                                 found = true;
                             }
                         }
 
-                        if(!found){
+                        if (!found) {
                             dataset.push(0);
                         }
-                    }
-                    !function ($) {
+                    }! function($) {
                         "use strict";
 
-                        var ChartJs = function () { };
+                        var ChartJs = function() {};
 
-                        ChartJs.prototype.respChart = function (selector, type, data, options) {
-                            // get selector by context
-                            var ctx = selector.get(0).getContext("2d");
-                            // pointing parent container to make chart js inherit its width
-                            var container = $(selector).parent();
+                        ChartJs.prototype.respChart = function(selector, type, data, options) {
+                                // get selector by context
+                                var ctx = selector.get(0).getContext("2d");
+                                // pointing parent container to make chart js inherit its width
+                                var container = $(selector).parent();
 
-                            // enable resizing matter
-                            $(window).resize(generateChart);
+                                // enable resizing matter
+                                $(window).resize(generateChart);
 
-                            // this function produce the responsive Chart JS
-                            function generateChart() {
-                                // make chart width fit with its container
-                                var ww = selector.attr('width', $(container).width());
-                                switch (type) {
-                                    case 'Line':
-                                        new Chart(ctx, { type: 'line', data: data, options: options });
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                // Initiate new chart or Redraw
+                                // this function produce the responsive Chart JS
+                                function generateChart() {
+                                    // make chart width fit with its container
+                                    var ww = selector.attr('width', $(container).width());
+                                    switch (type) {
+                                        case 'Line':
+                                            new Chart(ctx, {
+                                                type: 'line',
+                                                data: data,
+                                                options: options
+                                            });
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    // Initiate new chart or Redraw
 
-                            };
-                            // run function - render chart at first load
-                            generateChart();
-                        },
+                                };
+                                // run function - render chart at first load
+                                generateChart();
+                            },
 
                             //init
-                            ChartJs.prototype.init = function () {
+                            ChartJs.prototype.init = function() {
                                 //creating lineChart
                                 var lineChart = {
                                     labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -431,13 +475,13 @@
 
                     }(window.jQuery),
 
-                        //initializing
-                        function ($) {
-                            "use strict";
-                            $.ChartJs.init()
-                        }(window.jQuery);
+                    //initializing
+                    function($) {
+                        "use strict";
+                        $.ChartJs.init()
+                    }(window.jQuery);
                 },
-                error: function(data){
+                error: function(data) {
                     $('.loader').css('display', 'none');
                     $('#chartError').css('display', 'block');
                     $('#chartError').html('<p class="text-muted text-small text-center"><b>Could not fetch report data.</b></p>')
@@ -445,9 +489,24 @@
             });
         }
 
-        $('#date').on('change', function(){
+        $('#date').on('change', function() {
             loadGraph($(this).val(), $('#graph_sites').val());
         });
+
+        function loadPatrols(date, site)
+        {
+            $(".patrol-loader").css("display", "block");
+            $("#patrol-table-container").css("display", "none");
+
+            $.ajax({
+                url: `/clients/${site}/patrols?date=${date}&site=${site}`,
+                success: function(data){
+                    for(let item of data){
+
+                    }
+                }
+            });
+        }
     </script>
 
     <!-- App js -->

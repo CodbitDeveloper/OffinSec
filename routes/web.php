@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('/fingerprint/delete/{fingerprint}', 'FingerprintController@destroy');
 
     Route::get("/patrol/{patrol}", "PatrolController@show");
+    Route::get("/clients/{site}/patrols", "PatrolController@getPatrolsForClient");
     Route::post("/sites/{site}/user", "SiteController@assignUser");
 
     Route::get('/zones', 'ZoneController@index');

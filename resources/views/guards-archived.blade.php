@@ -5,7 +5,18 @@
                    
                 </div>
                 <div class="col-sm-8">
-                    
+                    <div class="project-sort float-right">
+                        <div class="project-sort-item">
+                            <form class="form-inline" action="">
+                                <div class="input-group">
+                                    <input type="text" class="form-control required" id="dob" name="q" autocomplete="false" required>
+                                    <div class="input-group-append">
+                                        <button class="input-group-text btn-custom" type="submit" style="cursor:pointer"><i class="mdi mdi-magnify"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div><!-- end col-->
             </div>
 
