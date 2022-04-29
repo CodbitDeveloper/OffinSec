@@ -22,8 +22,7 @@ class PatrolController extends Controller
 
     public function getPatrolsForClient(Request $request, Site $site)
     {
-        $date = date('Y-m-d', strtotime($request->date));
-        $patrols = Patrol::where("site_id", $site->id)->whereDate("created_at", $date)->withCount("scans")->get();
+        $patrols = Patrol::where("site_id", $site->id)->whereDate("created_at", $request->date)->withCount("scans")->get();
 
         return $patrols->toJson();
     }
