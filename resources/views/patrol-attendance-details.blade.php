@@ -37,7 +37,7 @@
                                     @isset($patrolAttendance)
                                         @foreach($patrolAttendance->lines as $attendance)
                                             <tr>
-                                                <td>{{$attendance->security_guard->firstname.' '.$attendance->security_guard->lastname}}</td>
+                                                <td>{{$attendance->security_guard ? $attendance->security_guard->firstname.' '.$attendance->security_guard->lastname : ''}}</td>
                                                 <td>{{$attendance->present ? 'Yes' : 'No'}}</td>
                                                 <td>{{$attendance->applicable ? 'Yes' : 'No'}}</td>
                                                 <td>{{$attendance->with_permission ? 'Yes' : 'No'}}</td>
