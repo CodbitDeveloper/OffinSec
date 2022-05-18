@@ -19,11 +19,11 @@ class PatrolAttendanceLine extends Model
 
     public function security_guard()
     {
-        return $this->belongsTo(Guard::class, "guard_id");
+        return $this->belongsTo(Guard::class, "guard_id")->withTrashed();
     }
 
     public function reliever()
     {
-        return $this->belongsTo(Guard::class, "reliever_id");
+        return $this->belongsTo(Guard::class, "reliever_id")->withTrashed();
     }
 }
