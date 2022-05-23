@@ -118,7 +118,7 @@
                         <li>
                             <a href="/home" class="active">Dashboard</a>
                         </li>
-                        @if(in_array(Auth::user()->role, ["admin"]))
+                        @if(in_array(Auth::user()->role, ["admin", "operations-manager"]))
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Guards</a>
                             <ul class="submenu">
